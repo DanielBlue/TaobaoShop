@@ -1,0 +1,19 @@
+{
+    "name": "淘助手",
+    "manifest_version": 2,
+    "version": "1.0",
+    "description": "淘宝小助手",
+    "browser_action": {
+        "default_icon": "1.png"
+    },
+    "permissions": [
+        "tabs", "http://*/*","https://*/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["https://buy.tmall.com/*","https://buy.taobao.com/*"],
+//            "matches": ["https://www.baidu.com/*","https://www.baidu.com/*"],
+            "js": ["js/jquery-1.11.3.min.js","js/myscript.js"]
+        }
+    ]
+}
