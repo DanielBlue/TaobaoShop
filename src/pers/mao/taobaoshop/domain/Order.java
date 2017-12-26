@@ -1,10 +1,26 @@
 package pers.mao.taobaoshop.domain;
 
 public class Order {
+    //订单id
     private String oid;
+    //订单号
     private String order_code;
+    //淘宝订单号
     private String taobao_code;
+    //快递号
     private String express_code;
+    //总价
+    private String total_price;
+
+    public String getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(String total_price) {
+        this.total_price = total_price;
+    }
+
+    //日期
     private String date;
 
     public String getOid() {

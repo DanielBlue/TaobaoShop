@@ -78,8 +78,8 @@ if (boolean) {
     xhr.open("GET", "http://127.0.0.1:8080/product/save?data=" + json, false);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            // window.print();
-            var responseText = xhr.responseText;
+            window.print();
+            // var responseText = xhr.responseText;
         }
     };
     xhr.send();
