@@ -21,10 +21,10 @@ for (var i = 0; i < $(".order-order").length; i++) {
         product_order.product_price = $(".order-order:eq(" + i + ") .simple-price:eq(" + x + ")").html();
         product_array[x] = product_order;
 
-        print_str += "("+(x+1)+")"+"  商品：" + product_order.product_desc + "</p>"
+        print_str += "(" + (x + 1) + ")" + "  商品：" + product_order.product_desc + "</p>"
             + "<p>价格：" + product_order.product_price + "元</p>";
 
-        show_str += "("+(x+1)+")"+"  商品：" + product_order.product_desc + "\n"
+        show_str += "(" + (x + 1) + ")" + "  商品：" + product_order.product_desc + "\n"
             + "价格：" + product_order.product_price + "元\n";
 
     }
@@ -52,16 +52,27 @@ for (var i = 0; i < $(".order-order").length; i++) {
 
 print_str += "<div style='font-size: 30px'><p>商品总价格：" + body.total_price + "元</p>"
     + "<p>总含代购费：" + total_agent_cost + "元</p>"
-    + "<p>总价格(含代购费)：" + (parseFloat(body.total_price)+total_agent_cost) + "元</p></div></div>";
+    + "<p>总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元</p></div></div>";
 
 show_str += "总价格：" + body.total_price + "元\n"
     + "总代购费：" + total_agent_cost + "元\n"
-    + "总价格(含代购费)：" + (parseFloat(body.total_price)+total_agent_cost) + "元\n";
+    + "总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元\n";
 
 body.order_array = order_array;
 var json = JSON.stringify(body);
 
 var tempHtml = $("body").html();
+
+if (window.matchMedia) {
+    var mediaQueryList = window.matchMedia('print');
+    mediaQueryList.addListener(function(mql) {
+        if (mql.matches) {
+            $("body").html(print_str);
+        } else {
+            $("body").html(tempHtml);
+        }
+    });
+}
 
 window.onbeforeprint = function () {
     $("body").html(print_str);
