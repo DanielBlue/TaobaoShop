@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SaveProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -22,6 +24,12 @@ public class SaveProductServlet extends HttpServlet {
         String json = request.getParameter("data");
         json= new String(json.getBytes("iso-8859-1"), "GBK");
         TaobaoBean bean = gson.fromJson(json,TaobaoBean.class);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+        String s = sdf.format(new Date());
+        System.out.println(s);
+
+
         response.getWriter().write("success");
     }
 }
