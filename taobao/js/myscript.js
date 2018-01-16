@@ -1,4 +1,4 @@
-var print_str = "<div style='margin-top: 100px' align='center'>";
+var print_str = "<div align='center'>";
 var show_str = "";
 var body = new Object();
 var order_array = new Array();
@@ -17,14 +17,14 @@ for (var i = 0; i < $(".order-order").length; i++) {
 
     for (var x = 0; x < $(".order-order:eq(" + i + ") .order-item.order-item-column-4").length; x++) {
         var product_order = new Object();
-        product_order.product_desc = $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html();
+        product_order.product_desc = (i+1)+".("+(x+1)+")"+$(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html();
         product_order.product_price = $(".order-order:eq(" + i + ") .simple-price:eq(" + x + ")").html();
         product_array[x] = product_order;
 
-        print_str += "(" + (x + 1) + ")" + "  商品：" + product_order.product_desc + "</p>"
+        print_str += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "</p>"
             + "<p>价格：" + product_order.product_price + "元</p>";
 
-        show_str += "(" + (x + 1) + ")" + "  商品：" + product_order.product_desc + "\n"
+        show_str += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "\n"
             + "价格：" + product_order.product_price + "元\n";
 
     }
@@ -89,12 +89,14 @@ if (boolean) {
     xhr.open("GET", "http://127.0.0.1:8080/product/save?data=" + json, false);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
+            var responseText = xhr.responseText;
+            print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + responseText + "</b></p></div>" + print_str;
             window.print();
-            // var responseText = xhr.responseText;
         }
     };
     xhr.send();
 }
+
 /*
 $.ajax({
     type: "post",

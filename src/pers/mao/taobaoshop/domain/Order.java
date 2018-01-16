@@ -1,16 +1,17 @@
 package pers.mao.taobaoshop.domain;
 
 public class Order {
+    private int id;
     //订单id
     private String oid;
-    //订单号
-    private String order_code;
     //淘宝订单号
     private String taobao_code;
     //快递号
     private String express_code;
     //总价
     private String total_price;
+    //日期
+    private String date;
 
     public String getTotal_price() {
         return total_price;
@@ -20,8 +21,6 @@ public class Order {
         this.total_price = total_price;
     }
 
-    //日期
-    private String date;
 
     public String getOid() {
         return oid;
@@ -29,14 +28,6 @@ public class Order {
 
     public void setOid(String oid) {
         this.oid = oid;
-    }
-
-    public String getOrder_code() {
-        return order_code;
-    }
-
-    public void setOrder_code(String order_code) {
-        this.order_code = order_code;
     }
 
     public String getTaobao_code() {
