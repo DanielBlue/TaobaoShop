@@ -45,11 +45,11 @@ public class SaveProductServlet extends HttpServlet {
 
         String oid = "";
 
-        if (theLastNum!=null&&!theLastNum.isEmpty()) {
-            String tempStr= theLastNum.substring(0, 8);
+        if (theLastNum != null && !theLastNum.isEmpty()) {
+            String tempStr = theLastNum.substring(0, 8);
             if (tempStr.equals(s)) {
                 //当天已有记录
-                int i = Integer.parseInt(theLastNum);
+                long i = Long.parseLong(theLastNum.substring(0, 10));
                 oid = String.valueOf(i + 1);
             } else {
                 //当天第一条
@@ -65,19 +65,29 @@ public class SaveProductServlet extends HttpServlet {
         String date = sdf.format(new Date());
         Order order = new Order();
         order.setDate(date);
-        order.setOid(oid);
         order.setTotal_price(bean.getTotal_price());
-        try {
-            service.saveOrder(order);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        for (TaobaoBean.OrderArrayBean orderArrayBean : bean.getOrder_array()) {
+        for (int i = 0; i < bean.getOrder_array().size(); i++) {
+            String tempOid = oid;
+            if (i < 9) {
+                tempOid = oid + "0" + (i + 1);
+            } else {
+                tempOid = oid + (i + 1);
+            }
+            order.setOid(tempOid);
+            try {
+                service.saveOrder(order);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            TaobaoBean.OrderArrayBean orderArrayBean = bean.getOrder_array().get(i);
             for (TaobaoBean.OrderArrayBean.ProductArrayBean productArrayBean : orderArrayBean.getProduct_array()) {
                 Product product = new Product();
-                product.setOid(oid);
-                product.setName(productArrayBean.getProduct_desc());
+                product.setOid(tempOid);
+//                product.setName(productArrayBean.getProduct_desc());
+                product.setName("我来测试一下");
+                System.out.println(productArrayBean.getProduct_desc());
                 product.setFreight(orderArrayBean.getFreight());
                 product.setPrice(productArrayBean.getProduct_price());
                 try {
@@ -87,7 +97,6 @@ public class SaveProductServlet extends HttpServlet {
                 }
             }
         }
-        System.out.println(oid);
         response.getWriter().write(oid);
     }
 }
