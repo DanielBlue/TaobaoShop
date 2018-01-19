@@ -65,7 +65,6 @@ public class SaveProductServlet extends HttpServlet {
         String date = sdf.format(new Date());
         Order order = new Order();
         order.setDate(date);
-        order.setTotal_price(bean.getTotal_price());
 
         for (int i = 0; i < bean.getOrder_array().size(); i++) {
             String tempOid = oid;
@@ -74,6 +73,7 @@ public class SaveProductServlet extends HttpServlet {
             } else {
                 tempOid = oid + (i + 1);
             }
+            order.setTotal_price(bean.getOrder_array().get(i).getTotal_price());
             order.setOid(tempOid);
             try {
                 service.saveOrder(order);
@@ -85,8 +85,7 @@ public class SaveProductServlet extends HttpServlet {
             for (TaobaoBean.OrderArrayBean.ProductArrayBean productArrayBean : orderArrayBean.getProduct_array()) {
                 Product product = new Product();
                 product.setOid(tempOid);
-//                product.setName(productArrayBean.getProduct_desc());
-                product.setName("我来测试一下");
+                product.setName(productArrayBean.getProduct_desc());
                 System.out.println(productArrayBean.getProduct_desc());
                 product.setFreight(orderArrayBean.getFreight());
                 product.setPrice(productArrayBean.getProduct_price());
