@@ -4,6 +4,17 @@ var body = new Object();
 var order_array = new Array();
 var total_agent_cost = 0;
 
+// 确认订单页面结构
+// body
+//     .realPay-price	所有店铺商品的总价
+//     .order-order	所有店铺的订单list
+//          .select-price	一个店铺的运费
+//          .style-middle-bold-red.J_ShopTotal	一个店铺的总价
+//          .order-item order-item-column-4	一个店铺所有订单的list
+//              .info-title	商品描述
+//              .simple-price 商品价格
+
+
 body.total_price = $(".realPay-price").html();
 
 for (var i = 0; i < $(".order-order").length; i++) {
