@@ -19,6 +19,10 @@
     <servlet-name>SaveProductServlet</servlet-name>
     <servlet-class>pers.mao.taobaoshop.web.servlet.SaveProductServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>OrderListServlet</servlet-name>
+    <servlet-class>pers.mao.taobaoshop.web.servlet.OrderListServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>AdminLoginServlet</servlet-name>
@@ -27,6 +31,10 @@
   <servlet-mapping>
     <servlet-name>SaveProductServlet</servlet-name>
     <url-pattern>/product/save</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderListServlet</servlet-name>
+    <url-pattern>/order/order_list</url-pattern>
   </servlet-mapping>
 
 
