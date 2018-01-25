@@ -3,6 +3,7 @@ package pers.mao.taobaoshop.web.servlet;
 import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.domain.Product;
 import pers.mao.taobaoshop.ov.OrderBean;
+import pers.mao.taobaoshop.ov.PageBean;
 import pers.mao.taobaoshop.service.OrderService;
 import pers.mao.taobaoshop.service.ProductService;
 
@@ -25,32 +26,31 @@ public class OrderListServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String currentPageStr = request.getParameter("currentPage");
+        String oid = request.getParameter("oid");
+
+        int currentPage = Integer.parseInt(currentPageStr);
+        int count = 5;
+
         OrderService orderService = new OrderService();
-        ProductService productService = new ProductService();
-        HttpSession session = request.getSession();
-        List<Order> orderList = null;
-        List<OrderBean> orderBeanList = new ArrayList<>();
-        try {
-            orderList = orderService.getAllOrders();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PageBean<OrderBean> pageBean = null;
 
-        if (orderList != null && orderList.size() >= 0) {
-            OrderBean orderBean;
-            for (Order order : orderList) {
-                try {
-                    orderBean = new OrderBean();
-                    orderBean.setOrder(order);
-                    orderBean.setProductList(productService.getProductList(order.getOid()));
-                    orderBeanList.add(orderBean);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        if (oid!=null&&!oid.isEmpty()){
+            try {
+                pageBean = orderService.getOrdersByOid(oid,currentPage,count);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            session.setAttribute("orderBeanList", orderBeanList);
+            request.setAttribute("oid",oid);
+        }else {
+            try {
+                pageBean = orderService.getAllOrders(currentPage,count);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
+        request.setAttribute("pageBean", pageBean);
         request.getRequestDispatcher("/admin/product/list.jsp").forward(request, response);
     }
 }

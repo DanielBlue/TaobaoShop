@@ -27,7 +27,7 @@
 		//d.add('0102','01','分类管理','','','mainFrame');
 		//d.add('010201','0102','分类管理','${pageContext.request.contextPath}/admin/category/list.jsp','','mainFrame');
 		d.add('0104','01','淘宝订单管理');
-		d.add('010401','0104','淘宝订单管理','${pageContext.request.contextPath}/order/order_list','','mainFrame');
+		d.add('010401','0104','淘宝订单管理','${pageContext.request.contextPath}/order/order_list?currentPage=1','','mainFrame');
 		document.write(d);
 
 	</script>

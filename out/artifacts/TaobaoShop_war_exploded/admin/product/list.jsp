@@ -15,14 +15,15 @@
     <script language="javascript"
             src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript">
-        <%--function addProduct() {--%>
-        <%--window.location.href = "${pageContext.request.contextPath}/admin/product/add.jsp";--%>
-        <%--}--%>
 
         $(function () {
             $("tr.parent").click(function () {
                 $(this).siblings(".child_" + this.id).toggle();
             }).click();
+
+            $("td.td_edit").click(function (e) {
+                e.stopPropagation();
+            })
         })
 
     </script>
@@ -30,8 +31,14 @@
 <body>
 <br>
 <form id="Form1" name="Form1"
-      action="${pageContext.request.contextPath}/user/list.jsp"
+      action="${pageContext.request.contextPath}/order/order_list?currentPage=1"
       method="post">
+
+    &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">&nbsp;&nbsp;
+
+    <input type="submit" value="搜索">
+    <br/>
+    <br/>
     <table cellSpacing="1" cellPadding="0" width="100%" align="center"
            bgColor="#f5fafe" border="0">
         <TBODY>
@@ -64,14 +71,14 @@
                         <td width="7%" align="center">删除</td>
                     </tr>
 
-                    <c:forEach var="orderBean" items="${orderBeanList}" varStatus="index">
+                    <c:forEach var="orderBean" items="${pageBean.itemList}" varStatus="index">
                         <tr id="${orderBean.order.oid}"
                             class="parent"
                             style="HEIGHT: 50px;"
                             onmouseover="this.style.backgroundColor = 'white'"
-                            onmouseout="this.style.backgroundColor = '#F5FAFE';"
-                            >
-                            <td style="CURSOR: hand; HEIGHT: 25px" align="center" width="5%">${index.count}</td>
+                            onmouseout="this.style.backgroundColor = '#F5FAFE';">
+                            <td style="CURSOR: hand; HEIGHT: 25px" align="center"
+                                width="5%">${pageBean.currentCount*(pageBean.currentPage-1)+index.count}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="15%">${orderBean.order.oid}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
@@ -81,18 +88,16 @@
                             <td align="center" width="10%">${orderBean.order.total_price}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="15%">${orderBean.order.date}</td>
-                            <td align="center" style="HEIGHT: 25px"><a
-                                    href="${ pageContext.request.contextPath }/admin/product/edit.jsp">
-                                <img
-                                        src="${pageContext.request.contextPath}/images/i_edit.gif"
-                                        border="0" style="CURSOR: hand">
-                            </a></td>
+                            <td align="center" style="HEIGHT: 25px" class="td_edit">
+                                <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}">
+                                    <img src="${pageContext.request.contextPath}/images/i_edit.gif"
+                                         border="0" style="CURSOR: hand">
+                                </a></td>
 
                             <td align="center" style="HEIGHT: 25px"><a href="#"> <img
                                     src="${pageContext.request.contextPath}/images/i_del.gif"
                                     width="16" height="16" border="0" style="CURSOR: hand">
                             </a></td>
-
                         </tr>
 
                         <c:forEach var="product" items="${orderBean.productList}" varStatus="index">
@@ -109,10 +114,64 @@
                 </table>
             </td>
         </tr>
-
         </TBODY>
     </table>
 </form>
+
+<!--分页 -->
+<div style="width: 380px; margin: 0 auto; margin-top: 50px;">
+    <ul class="pagination" style="text-align: center; margin-top: 10px;white-space: nowrap; list-style:none">
+        <!-- 上一页 -->
+        <!-- 判断当前页是否是第一页 -->
+        <c:if test="${pageBean.currentPage==1 }">
+            <li class="disabled" style="float:left;margin-left: 15px">
+                <a href="javascript:void(0);" aria-label="Previous">
+                    <span aria-hidden="true" style="font-size:20px">&laquo;</span>
+                </a>
+            </li>
+        </c:if>
+        <c:if test="${pageBean.currentPage!=1 }">
+            <li style="float:left;margin-left: 15px">
+                <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}"
+                   aria-label="Previous">
+                    <span aria-hidden="true" style="font-size:20px">&laquo;</span>
+                </a>
+            </li>
+        </c:if>
+
+        <c:forEach begin="1" end="${pageBean.totalPage }" var="page">
+            <!-- 判断当前页 -->
+            <c:if test="${pageBean.currentPage==page }">
+                <li class="active" style="float:left;margin-left: 15px;"><a style="font-size:large;color: red;"
+                                                                            href="javascript:void(0);">${page}</a></li>
+            </c:if>
+            <c:if test="${pageBean.currentPage!=page }">
+                <li style="float:left;margin-left: 15px;"><a style="font-size:large"
+                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}">${page}</a>
+                </li>
+            </c:if>
+        </c:forEach>
+
+        <!-- 判断当前页是否是最后一页 -->
+        <c:if test="${pageBean.currentPage==pageBean.totalPage }">
+            <li class="disabled" style="float:left;margin-left: 15px">
+                <a href="javascript:void(0);" aria-label="Next">
+                    <span aria-hidden="true" style="font-size:20px">&raquo;</span>
+                </a>
+            </li>
+        </c:if>
+        <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
+            <li style="float:left;margin-left: 15px">
+                <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}"
+                   aria-label="Next">
+                    <span aria-hidden="true" style="font-size:20px">&raquo;</span>
+                </a>
+            </li>
+        </c:if>
+
+    </ul>
+</div>
+<!-- 分页结束 -->
 </body>
 </HTML>
 
