@@ -56,6 +56,10 @@ public class OrderService {
         return dao.getOrder(oid);
     }
 
+    public List<Order> getOrders(String oid) throws SQLException {
+        return dao.getOrders(oid);
+    }
+
     public void updateOrder(String oid, String taobao_code, String express_code) throws SQLException {
         dao.updateOrder(oid,taobao_code,express_code);
     }

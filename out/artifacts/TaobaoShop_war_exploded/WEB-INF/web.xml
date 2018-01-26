@@ -37,6 +37,10 @@
         <servlet-name>ExpressQueryServlet</servlet-name>
         <servlet-class>pers.mao.taobaoshop.web.servlet.ExpressQueryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WxServlet</servlet-name>
+        <servlet-class>pers.mao.taobaoshop.web.servlet.WxServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>AdminLoginServlet</servlet-name>
@@ -61,6 +65,10 @@
     <servlet-mapping>
         <servlet-name>ExpressQueryServlet</servlet-name>
         <url-pattern>/express/query</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WxServlet</servlet-name>
+        <url-pattern>/wx</url-pattern>
     </servlet-mapping>
 
     <session-config>

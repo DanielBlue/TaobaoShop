@@ -60,4 +60,10 @@ public class OrderDao {
         }
         return 0;
     }
+
+    public List<Order> getOrders(String oid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from product_order where oid like ?";
+        return runner.query(sql, new BeanListHandler<Order>(Order.class), oid+"%");
+    }
 }
