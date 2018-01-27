@@ -7,7 +7,9 @@ public enum MsgType {
     Video("video"),
     Voice("voice"),
     Location("location"),
-    Link("link");
+    Link("link"),
+    Event("event");
+
     private String msgType = "";
 
     MsgType(String msgType) {

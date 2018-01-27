@@ -33,6 +33,12 @@ public class OrderService {
         int index = (currentPage-1)*count;
         List<Order> orderList = dao.getAllOrders(index,count);
 
+        initItemList(pageBean, orderBeanList, orderList);
+
+        return pageBean;
+    }
+
+    private void initItemList(PageBean<OrderBean> pageBean, List<OrderBean> orderBeanList, List<Order> orderList) {
         if (orderList != null && orderList.size() >= 0) {
             OrderBean orderBean;
             for (Order order : orderList) {
@@ -48,8 +54,6 @@ public class OrderService {
 
             pageBean.setItemList(orderBeanList);
         }
-
-        return pageBean;
     }
 
     public Order getOrder(String oid) throws SQLException {
@@ -79,21 +83,7 @@ public class OrderService {
         int index = (currentPage-1)*count;
         List<Order> orderList = dao.getOrdersByOid(oid,index,count);
 
-        if (orderList != null && orderList.size() >= 0) {
-            OrderBean orderBean;
-            for (Order order : orderList) {
-                try {
-                    orderBean = new OrderBean();
-                    orderBean.setOrder(order);
-                    orderBean.setProductList(productDao.getProductList(order.getOid()));
-                    orderBeanList.add(orderBean);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            pageBean.setItemList(orderBeanList);
-        }
+        initItemList(pageBean, orderBeanList, orderList);
 
         return pageBean;
     }

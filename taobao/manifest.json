@@ -11,7 +11,7 @@
     ],
     "content_scripts": [
         {
-            "matches": ["https://buy.tmall.com/*","https://buy.taobao.com/*"],
+            "matches": ["https://buy.tmall.com/order/*","https://buy.taobao.com/auction/order/*"],
 //            "matches": ["https://www.baidu.com/*","https://www.baidu.com/*"],
             "js": ["js/jquery-1.11.3.min.js","js/myscript.js"]
         }

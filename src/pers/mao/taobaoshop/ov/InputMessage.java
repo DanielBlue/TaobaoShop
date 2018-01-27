@@ -17,7 +17,7 @@ public class InputMessage implements Serializable {
     @XStreamAlias("CreateTime")
     private Long CreateTime;
     @XStreamAlias("MsgType")
-    private String MsgType = "text";
+    private String MsgType;
     @XStreamAlias("MsgId")
     private Long MsgId;
     // 文本消息

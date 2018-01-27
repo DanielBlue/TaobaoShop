@@ -41,6 +41,10 @@
         <servlet-name>WxServlet</servlet-name>
         <servlet-class>pers.mao.taobaoshop.web.servlet.WxServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderAddServlet</servlet-name>
+        <servlet-class>pers.mao.taobaoshop.web.servlet.OrderAddServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>AdminLoginServlet</servlet-name>
@@ -69,6 +73,10 @@
     <servlet-mapping>
         <servlet-name>WxServlet</servlet-name>
         <url-pattern>/wx</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderAddServlet</servlet-name>
+        <url-pattern>/order/add_order</url-pattern>
     </servlet-mapping>
 
     <session-config>

@@ -1,6 +1,7 @@
 package pers.mao.taobaoshop.web.servlet;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.regexp.internal.RE;
 import com.thoughtworks.xstream.XStream;
 import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.ov.ExpressInfoBean;
@@ -9,6 +10,7 @@ import pers.mao.taobaoshop.ov.OutputMessage;
 import pers.mao.taobaoshop.service.OrderService;
 import pers.mao.taobaoshop.utils.*;
 
+import javax.lang.model.util.ElementScanner6;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +31,12 @@ public class WxServlet extends HttpServlet {
         if (isPost) {
             // 接收消息并返回消息
             acceptMessage(request, response);
+        } else {
+            String echostr = request.getParameter("echostr");
+            responseBuild(response,echostr);
         }
+
+
     }
 
     private void acceptMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -49,18 +56,61 @@ public class WxServlet extends HttpServlet {
         }
         // 将xml内容转换为InputMessage对象
         InputMessage inputMsg = (InputMessage) xs.fromXML(xmlMsg.toString());
-
-        String servername = inputMsg.getToUserName();// 服务端
-        String custermname = inputMsg.getFromUserName();// 客户端
-        long createTime = inputMsg.getCreateTime();// 接收时间
-        Long returnTime = Calendar.getInstance().getTimeInMillis() / 1000;// 返回时间
-
-        String receiveContent = inputMsg.getContent();
-
         // 取得消息类型
         String msgType = inputMsg.getMsgType();
+
+
         // 根据消息类型获取对应的消息内容
-        if (msgType.equals(MsgType.Text.toString()) && StrUtils.isInteger(receiveContent)) {
+        if (msgType.equals(MsgType.Text.toString())) {
+            handleMessageContent(inputMsg, response);
+        }else if (msgType.equals(MsgType.Event.toString())){
+            handleEventContent(inputMsg,response);
+        }
+        // 获取并返回多图片消息
+//        if (msgType.equals(MsgType.Image.toString())) {
+//            System.out.println("获取多媒体信息");
+//            System.out.println("多媒体文件id：" + inputMsg.getMediaId());
+//            System.out.println("图片链接：" + inputMsg.getPicUrl());
+//            System.out.println("消息id，64位整型：" + inputMsg.getMsgId());
+//
+//            OutputMessage outputMsg = new OutputMessage();
+//            outputMsg.setFromUserName(servername);
+//            outputMsg.setToUserName(custermname);
+//            outputMsg.setCreateTime(returnTime);
+//            outputMsg.setMsgType(msgType);
+//            ImageMessage images = new ImageMessage();
+//            images.setMediaId(inputMsg.getMediaId());
+//            outputMsg.setImage(images);
+//            System.out.println("xml转换：/n" + xs.toXML(outputMsg));
+//            response.getWriter().write(xs.toXML(outputMsg));
+//
+//        }
+    }
+
+    private void handleEventContent(InputMessage inputMessage, HttpServletResponse response) throws IOException {
+        String servername = inputMessage.getToUserName();// 服务端
+        String custermname = inputMessage.getFromUserName();// 客户端
+        long createTime = inputMessage.getCreateTime();// 接收时间
+        Long returnTime = Calendar.getInstance().getTimeInMillis() / 1000;// 返回时间
+        String event = inputMessage.getEvent();
+
+        String outputMessage = "success";
+        if (event.equals("subscribe")){
+            outputMessage = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.WELCOME);
+        }
+        responseBuild(response,outputMessage);
+
+    }
+
+    private void handleMessageContent(InputMessage inputMessage, HttpServletResponse response) throws IOException {
+        String servername = inputMessage.getToUserName();// 服务端
+        String custermname = inputMessage.getFromUserName();// 客户端
+        long createTime = inputMessage.getCreateTime();// 接收时间
+        Long returnTime = Calendar.getInstance().getTimeInMillis() / 1000;// 返回时间
+        String receiveContent = inputMessage.getContent();
+
+
+        if (StrUtils.isInteger(receiveContent)) {
             // 文本消息
 //            System.out.println("开发者微信号：" + inputMsg.getToUserName());
 //            System.out.println("发送方帐号：" + inputMsg.getFromUserName());
@@ -93,37 +143,20 @@ public class WxServlet extends HttpServlet {
                 result = ConstantUtils.SERVER_ERROR;
             }
 
-            String responseStr = buildOutputMessage(custermname, servername, returnTime, msgType, result);
-            response.setContentType("text/html;charset=UTF-8");
-            response.getWriter().write(responseStr);
-        } else if (msgType.equals(MsgType.Text.toString()) &&receiveContent.equals("老板")) {
-            String responseStr = buildOutputMessage(custermname, servername, returnTime, msgType, ConstantUtils.BOSS_WX);
-            response.setContentType("text/html;charset=UTF-8");
-            response.getWriter().write(responseStr);
+            String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), result);
+            responseBuild(response, responseStr);
+        } else if (receiveContent.equals("微信号")) {
+            String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.BOSS_WX);
+            responseBuild(response, responseStr);
         } else {
-            String responseStr = buildOutputMessage(custermname, servername, returnTime, msgType, ConstantUtils.INPUT_ERROR);
-            response.setContentType("text/html;charset=UTF-8");
-            response.getWriter().write(responseStr);
+            String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.INPUT_ERROR);
+            responseBuild(response, responseStr);
         }
-        // 获取并返回多图片消息
-//        if (msgType.equals(MsgType.Image.toString())) {
-//            System.out.println("获取多媒体信息");
-//            System.out.println("多媒体文件id：" + inputMsg.getMediaId());
-//            System.out.println("图片链接：" + inputMsg.getPicUrl());
-//            System.out.println("消息id，64位整型：" + inputMsg.getMsgId());
-//
-//            OutputMessage outputMsg = new OutputMessage();
-//            outputMsg.setFromUserName(servername);
-//            outputMsg.setToUserName(custermname);
-//            outputMsg.setCreateTime(returnTime);
-//            outputMsg.setMsgType(msgType);
-//            ImageMessage images = new ImageMessage();
-//            images.setMediaId(inputMsg.getMediaId());
-//            outputMsg.setImage(images);
-//            System.out.println("xml转换：/n" + xs.toXML(outputMsg));
-//            response.getWriter().write(xs.toXML(outputMsg));
-//
-//        }
+    }
+
+    private void responseBuild(HttpServletResponse response, String responseStr) throws IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().write(responseStr);
     }
 
     private String formatResult(String expressInfo) {

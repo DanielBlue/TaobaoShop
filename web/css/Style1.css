@@ -361,23 +361,10 @@ A.eq:hover {
 }
 
 .button_add {
-    background-color: #DAE6FF;
-    margin: 1px;
-    padding: 2px 4px 2px 10px;
+    height: 30px;
+    text-align: center;
     border: 1px solid #8AA2CC;
-    background-attachment: fixed;
-    /*background-image: url(../images/button_add.gif);*/
-    background-repeat: no-repeat;
-    background-position: left center;
     color: #2F3F5B;
-    cursor: hand;
-    text-align: right;
-    left: 10px;
-    top: 10px;
-    right: 0px;
-    bottom: 10px;
-    clip: rect(10px 10px 10px 10px);
-    height: 20px;
 }
 
 .button_del {

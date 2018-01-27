@@ -1,4 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <HTML>
 	<HEAD>
 		<meta http-equiv="Content-Language" content="zh-cn">
@@ -8,74 +10,56 @@
 	
 	<body>
 		<!--  -->
-		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/adminProduct_save.action" method="post" enctype="multipart/form-data">
+		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/order/add_order" method="post">
 			&nbsp;
 			<table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
 				<tr>
 					<td class="ta_01" align="center" bgColor="#afd1f3" colSpan="4"
 						height="26">
-						<strong><STRONG>添加商品</STRONG>
+						<strong><STRONG>添加订单</STRONG>
 						</strong>
 					</td>
 				</tr>
 
+				<c:if test="${error_message!=null}">
+					<tr>
+						<td><span style="color: red; font-size: larger">${error_message }</span></td>
+					</tr>
+				</c:if>
+
+				<tr style="FONT-WEIGHT: bold; font-size: 18px">
+					<td width="30%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						取货单号：
+					</td>
+					<td width="30%" height="50px" class="ta_01" bgColor="#ffffff">
+						<input type="text" name="oid" value="${order.oid}" id="userAction_save_do_oid" class="bg"/>
+					</td>
+
+				</tr>
 				<tr>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						商品名称：
+					<td width="30%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						淘宝单号：
 					</td>
-					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="pname" value="" id="userAction_save_do_logonName" class="bg"/>
-					</td>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						是否热门：
-					</td>
-					<td class="ta_01" bgColor="#ffffff">
-						<select name="is_hot">
-							<option value="1">是</option>
-							<option value="0">否</option>
-						</select>
+					<td width="30%" height="50px" class="ta_01" bgColor="#ffffff">
+						<input type="text" name="taobao_code" value="${order.taobao_code}" id="userAction_save_do_taobao_code" class="bg"/>
 					</td>
 				</tr>
 				<tr>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						市场价格：
+					<td width="30%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						快递单号：
 					</td>
-					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="market_price" value="" id="userAction_save_do_logonName" class="bg"/>
-					</td>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						商城价格：
-					</td>
-					<td class="ta_01" bgColor="#ffffff">
-						<input type="text" name="shop_price" value="" id="userAction_save_do_logonName" class="bg"/>
+					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
+						<input type="text" name="express_code" value="${order.express_code}"
+							   id="userAction_save_do_express_code" class="bg"/>
 					</td>
 				</tr>
-				<tr>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						商品图片：
+				<tr style="FONT-WEIGHT: bold; FONT-SIZE: 20pt; HEIGHT: 25px">
+					<td width="18%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						订单总价：
 					</td>
-					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<input type="file" name="upload" />
-					</td>
-				</tr>
-				<tr>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						所属分类：
-					</td>
-					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<select name="categorySecond.csid">
-							<option value="">大型电器</option>
-							<option value="">手机数码</option>
-							<option value="">衣帽箱包</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
-						商品描述：
-					</td>
-					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<textarea name="pdesc" rows="5" cols="30"></textarea>
+					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
+						<input type="text" name="total_price" value="${order.total_price}"
+							   id="userAction_save_do_total_price" class="bg"/>
 					</td>
 				</tr>
 				<tr>
