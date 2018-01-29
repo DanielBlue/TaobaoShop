@@ -62,7 +62,7 @@ public class WxServlet extends HttpServlet {
 
         // 根据消息类型获取对应的消息内容
         if (msgType.equals(MsgType.Text.toString())) {
-            handleMessageContent(inputMsg, response);
+            handleMessageContent(request,inputMsg, response);
         }else if (msgType.equals(MsgType.Event.toString())){
             handleEventContent(inputMsg,response);
         }
@@ -102,7 +102,7 @@ public class WxServlet extends HttpServlet {
 
     }
 
-    private void handleMessageContent(InputMessage inputMessage, HttpServletResponse response) throws IOException {
+    private void handleMessageContent(HttpServletRequest request, InputMessage inputMessage, HttpServletResponse response) throws IOException {
         String servername = inputMessage.getToUserName();// 服务端
         String custermname = inputMessage.getFromUserName();// 客户端
         long createTime = inputMessage.getCreateTime();// 接收时间
@@ -146,7 +146,8 @@ public class WxServlet extends HttpServlet {
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), result);
             responseBuild(response, responseStr);
         } else if (receiveContent.equals("微信号")) {
-            String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.BOSS_WX);
+            String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(),
+                    "http://114.67.241.157:/"+request.getContextPath()+ConstantUtils.BOSS_WX);
             responseBuild(response, responseStr);
         } else {
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.INPUT_ERROR);
