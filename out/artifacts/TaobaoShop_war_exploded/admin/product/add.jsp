@@ -23,7 +23,7 @@
 
 				<c:if test="${error_message!=null}">
 					<tr>
-						<td><span style="color: red; font-size: larger">${error_message }</span></td>
+						<td align="center" colspan="2"><span style="color: red; font-size: 20px">${error_message }</span></td>
 					</tr>
 				</c:if>
 

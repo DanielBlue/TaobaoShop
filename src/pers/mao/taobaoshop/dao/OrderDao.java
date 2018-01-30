@@ -8,6 +8,7 @@ import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.ov.PageBean;
 import pers.mao.taobaoshop.utils.DataSourceUtils;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -65,5 +66,11 @@ public class OrderDao {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "select * from product_order where oid like ?";
         return runner.query(sql, new BeanListHandler<Order>(Order.class), oid+"%");
+    }
+
+    public void addOrder(Order order) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "insert into product_order (oid,taobao_code,express_code,total_price,date) values (?,?,?,?,?)";
+        runner.update(sql, order.getOid(), order.getTaobao_code(), order.getExpress_code(), order.getTotal_price(), order.getDate());
     }
 }

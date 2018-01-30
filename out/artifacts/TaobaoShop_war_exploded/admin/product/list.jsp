@@ -51,15 +51,15 @@
                 <strong>订单列表</strong>
             </td>
         </tr>
-        <%--<tr>--%>
-            <%--<td class="ta_01" align="right">--%>
-                <%--<button type="button" id="add" name="add" value="添加"--%>
-                        <%--style="height: 30px;text-align: center;border: 1px solid #8AA2CC;color: #2F3F5B;margin-right: 20px"--%>
-                        <%--onclick="addProduct()">--%>
-                    <%--&#28155;&#21152;--%>
-                <%--</button>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
+        <tr>
+            <td class="ta_01" align="right">
+                <button type="button" id="add" name="add" value="添加"
+                        style="height: 30px;text-align: center;border: 1px solid #8AA2CC;color: #2F3F5B;margin-right: 20px"
+                        onclick="addProduct()">
+                    &#28155;&#21152;
+                </button>
+            </td>
+        </tr>
         <tr>
             <td class="ta_01" align="center" bgColor="#f5fafe">
                 <table cellspacing="0" cellpadding="1" rules="all"
