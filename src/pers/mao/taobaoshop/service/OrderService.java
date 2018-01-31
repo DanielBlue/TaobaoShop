@@ -87,4 +87,8 @@ public class OrderService {
 
         return pageBean;
     }
+
+    public void addOrder(Order order) throws SQLException {
+        dao.addOrder(order);
+    }
 }
