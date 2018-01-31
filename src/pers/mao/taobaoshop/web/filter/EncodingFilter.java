@@ -16,7 +16,7 @@ public class EncodingFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
+        final HttpServletRequest request = (HttpServletRequest) req;
 
         HttpServletRequest encodingRequest = (HttpServletRequest) Proxy.newProxyInstance(
                 request.getClass().getClassLoader(),
