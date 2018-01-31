@@ -96,7 +96,7 @@ window.onafterprint = function () {
 var boolean = confirm(show_str);
 if (boolean) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://127.0.0.1:8080/product/save?data=" + json, false);
+    xhr.open("GET", "http://114.67.241.157/product/save?data=" + json, false);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             var responseText = xhr.responseText;

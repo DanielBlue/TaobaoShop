@@ -33,7 +33,7 @@ public class WxServlet extends HttpServlet {
             acceptMessage(request, response);
         } else {
             String echostr = request.getParameter("echostr");
-            responseBuild(response,echostr);
+            responseBuild(response, echostr);
         }
 
 
@@ -62,9 +62,9 @@ public class WxServlet extends HttpServlet {
 
         // 根据消息类型获取对应的消息内容
         if (msgType.equals(MsgType.Text.toString())) {
-            handleMessageContent(request,inputMsg, response);
-        }else if (msgType.equals(MsgType.Event.toString())){
-            handleEventContent(inputMsg,response);
+            handleMessageContent(request, inputMsg, response);
+        } else if (msgType.equals(MsgType.Event.toString())) {
+            handleEventContent(inputMsg, response);
         }
         // 获取并返回多图片消息
 //        if (msgType.equals(MsgType.Image.toString())) {
@@ -95,10 +95,10 @@ public class WxServlet extends HttpServlet {
         String event = inputMessage.getEvent();
 
         String outputMessage = "success";
-        if (event.equals("subscribe")){
+        if (event.equals("subscribe")) {
             outputMessage = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.WELCOME);
         }
-        responseBuild(response,outputMessage);
+        responseBuild(response, outputMessage);
 
     }
 
@@ -128,7 +128,11 @@ public class WxServlet extends HttpServlet {
                         String express_code = order.getExpress_code();
                         if (express_code != null || express_code.isEmpty()) {
                             String expressInfo = NetUtils.getExpressInfo(express_code);
-                            result = formatResult(expressInfo);
+                            if (expressInfo != null && !expressInfo.isEmpty()) {
+                                result = formatResult(expressInfo);
+                            }else {
+                                result = ConstantUtils.NO_MESSAGE;
+                            }
                         } else {
                             result = ConstantUtils.NO_MESSAGE;
                         }
@@ -147,7 +151,7 @@ public class WxServlet extends HttpServlet {
             responseBuild(response, responseStr);
         } else if (receiveContent.equals("微信号")) {
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(),
-                    "http://114.67.241.157"+ConstantUtils.BOSS_WX);
+                    "http://114.67.241.157" + ConstantUtils.BOSS_WX);
             responseBuild(response, responseStr);
         } else {
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.INPUT_ERROR);

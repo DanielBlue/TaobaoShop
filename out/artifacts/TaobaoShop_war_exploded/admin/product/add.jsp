@@ -34,7 +34,6 @@
 					<td width="30%" height="50px" class="ta_01" bgColor="#ffffff">
 						<input type="text" name="oid" value="${order.oid}" id="userAction_save_do_oid" class="bg"/>
 					</td>
-
 				</tr>
 				<tr>
 					<td width="30%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">

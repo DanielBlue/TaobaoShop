@@ -18,15 +18,18 @@ public class NetUtils {
         BufferedReader reader = null;
         String json = connect(urlStr, connection, reader);
 
-        JsonParser parser = new JsonParser();
-        JsonElement jsonElement = parser.parse(json);
-        String express = jsonElement.getAsJsonObject().getAsJsonArray("auto").get(0).getAsJsonObject().get("comCode").getAsString();
-        String result = "";
-        if (!express.isEmpty()) {
-            urlStr = "http://www.kuaidi100.com/query?type=" + express + "&postid=" + express_code;
-            result = connect(urlStr, connection, reader);
+        if (json!=null&&!json.isEmpty()){
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(json);
+            String express = jsonElement.getAsJsonObject().getAsJsonArray("auto").get(0).getAsJsonObject().get("comCode").getAsString();
+            String result = "";
+            if (!express.isEmpty()) {
+                urlStr = "http://www.kuaidi100.com/query?type=" + express + "&postid=" + express_code;
+                result = connect(urlStr, connection, reader);
+            }
+            return result;
         }
-        return result;
+        return null;
     }
 
     private static String connect(String urlStr, HttpURLConnection connection, BufferedReader reader) {

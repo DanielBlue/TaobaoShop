@@ -28,8 +28,12 @@ public class ExpressQueryServlet extends HttpServlet {
 
         String express_code = request.getParameter("express_code");
         String result = NetUtils.getExpressInfo(express_code);
-
-        response.setContentType("application/json;charset=UTF-8");
+        if (result != null) {
+            response.setContentType("application/json;charset=UTF-8");
+        }else {
+            result="暂无快递信息";
+            response.setContentType("text/xml;charset=UTF-8");
+        }
         response.getWriter().write(result);
     }
 
