@@ -95,38 +95,30 @@ window.onafterprint = function () {
 
 var boolean = confirm(show_str);
 if (boolean) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://114.67.241.157/product/save?data=" + json, false);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            var responseText = xhr.responseText;
-            print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + responseText + "</b></p></div>" + print_str;
+    $.ajax({
+        type: "post",
+        async: false,
+        url: "http://114.67.241.157/product/save",
+        data: json,
+        contentType: "application/json",
+        dataType: "text",
+        success: function (data) {
+            //success
+            print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + data + "</b></p></div>" + print_str;
             window.print();
         }
-    };
-    xhr.send();
+    });
 }
+// 114.67.241.157
 
-
-/*
-$.ajax({
-    type: "post",
-    async: false,
-    url:"http://localhost:8080/product/save/",
-    data:json,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function(data) {
-        //success
-        alert(data.toString);
-
-    }
-});
-*/
-
-// $.get("http://localhost:8080/product/save",
-//     {"data": 123},
-//     function (data) {
-//         alert(true);
+// var xhr = new XMLHttpRequest();
+// xhr.open("GET", "http://114.67.241.157/product/save?data="+json, false);
+// xhr.onreadystatechange = function () {
+//     if (xhr.readyState === 4) {
+//         var responseText = xhr.responseText;
+//         print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + responseText + "</b></p></div>" + print_str;
+//         window.print();
 //     }
-// );
+// };
+// xhr.setRequestHeader("Content-Type", "application/json;");
+// xhr.send();

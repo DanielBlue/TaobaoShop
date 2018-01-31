@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -31,7 +32,11 @@ public class SaveProductServlet extends HttpServlet {
         Gson gson = new Gson();
         ProductService service = new ProductService();
         String json = request.getParameter("data");
-        json = new String(json.getBytes("iso-8859-1"), "GBK");
+        if (json != null && !json.isEmpty()) {
+            json = new String(json.getBytes("iso-8859-1"), "GBK");
+        } else {
+            json = RequestUtils.getRequestBody(request);
+        }
 
         String theLastNum = "";
         try {
