@@ -3,16 +3,22 @@
     "manifest_version": 2,
     "version": "1.0",
     "description": "淘宝小助手",
+//    "background": {
+//        "scripts": [
+//            "js/jquery-1.11.3.min.js",
+//            "js/background.js"
+//        ],
+//        "persistent": true
+//    },
     "browser_action": {
         "default_icon": "1.png"
     },
     "permissions": [
-        "tabs", "http://*/*","https://*/*"
+        "tabs", "http://*/*","https://*/*","storage"
     ],
     "content_scripts": [
         {
             "matches": ["https://buy.tmall.com/order/*","https://buy.taobao.com/auction/order/*"],
-//            "matches": ["https://www.baidu.com/*","https://www.baidu.com/*"],
             "js": ["js/jquery-1.11.3.min.js","js/myscript.js"]
         }
     ]

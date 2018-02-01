@@ -14,6 +14,59 @@ var total_agent_cost = 0;
 //              .info-title	商品描述
 //              .simple-price 商品价格
 
+$("div #submitOrder_1").append("<div><br/><br/><a id='post_to_server' role='button' class='go-btn' style='font-size: 20px;background: dodgerblue'>保存到服务器</a>" +
+    "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a></div>");
+
+$("#post_to_server").click(function () {
+    var boolean = confirm(show_str);
+    if (boolean) {
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "http://114.67.241.157/product/save",
+            data: json,
+            contentType: "application/json",
+            dataType: "text",
+            success: function (data) {
+                //success
+                print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + data + "</b></p></div>" + print_str;
+                window.print();
+            }
+        });
+    }
+})
+
+$("#post_to_local").click(function () {
+    var order_id = prompt("请输入订单号", "");
+    if (order_id) {
+        print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + order_id + "</b></p></div>" + print_str;
+        export_raw(order_id + '.html', print_str);
+        window.print();
+    } else {
+        alert("订单号不能为空")
+    }
+})
+
+function fake_click(obj) {
+    var ev = document.createEvent("MouseEvents");
+    ev.initMouseEvent(
+        "click", true, false, window, 0, 0, 0, 0, 0
+        , false, false, false, false, 0, null
+    );
+    obj.dispatchEvent(ev);
+}
+
+function export_raw(name, data) {
+    var urlObject = window.URL || window.webkitURL || window;
+
+    var export_blob = new Blob([data]);
+
+    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+    save_link.href = urlObject.createObjectURL(export_blob);
+    save_link.download = name;
+    fake_click(save_link);
+}
+
 
 body.total_price = $(".realPay-price").html();
 
@@ -93,22 +146,7 @@ window.onafterprint = function () {
     $("body").html(tempHtml);
 }
 
-var boolean = confirm(show_str);
-if (boolean) {
-    $.ajax({
-        type: "post",
-        async: false,
-        url: "http://114.67.241.157/product/save",
-        data: json,
-        contentType: "application/json",
-        dataType: "text",
-        success: function (data) {
-            //success
-            print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + data + "</b></p></div>" + print_str;
-            window.print();
-        }
-    });
-}
+
 // 114.67.241.157
 
 // var xhr = new XMLHttpRequest();
