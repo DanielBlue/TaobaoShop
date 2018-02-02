@@ -37,6 +37,7 @@ public class DataSourceUtils {
 
 	// 开启事务
 	public static void startTransaction() throws SQLException {
+		System.out.println("开启事务");
 		Connection con = getCurrentConnection();
 		if (con != null) {
 			con.setAutoCommit(false);
@@ -45,6 +46,7 @@ public class DataSourceUtils {
 
 	// 事务回滚
 	public static void rollback() throws SQLException {
+		System.out.println("事务回滚");
 		Connection con = getCurrentConnection();
 		if (con != null) {
 			con.rollback();
@@ -53,6 +55,7 @@ public class DataSourceUtils {
 
 	// 提交并且 关闭资源及从ThreadLocall中释放
 	public static void commitAndRelease() throws SQLException {
+		System.out.println("提交事务");
 		Connection con = getCurrentConnection();
 		if (con != null) {
 			con.commit(); // 事务提交

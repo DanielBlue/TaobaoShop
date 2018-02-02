@@ -14,37 +14,135 @@ var total_agent_cost = 0;
 //              .info-title	商品描述
 //              .simple-price 商品价格
 
+// chrome.storage.local.clear(function () {
+//     alert('清除成功')
+// })
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+
+
+function getFormatDate() {
+    var date = new Date().Format("yyyyMMdd")
+    return date
+}
+
+function retuanLastOrderId(lastOrderId) {
+    if (lastOrderId === undefined) {
+        chrome.storage.local.clear()
+    } else {
+        chrome.storage.local.set({'order_id': lastOrderId})
+    }
+}
+
 $("div #submitOrder_1").append("<div><br/><br/><a id='post_to_server' role='button' class='go-btn' style='font-size: 20px;background: dodgerblue'>保存到服务器</a>" +
-    "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a></div>");
+    "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a>" +
+    "<br/><br/><br/><a id='clear' role='button' class='go-btn' style='font-size: 20px;background: purple'>清除order_id</a></div>");
+
+$("#clear").click(function () {
+    chrome.storage.local.clear(function () {
+        alert("清除成功")
+    })
+})
 
 $("#post_to_server").click(function () {
-    var boolean = confirm(show_str);
-    if (boolean) {
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://114.67.241.157/product/save",
-            data: json,
-            contentType: "application/json",
-            dataType: "text",
-            success: function (data) {
-                //success
-                print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + data + "</b></p></div>" + print_str;
-                window.print();
+    chrome.storage.local.get('order_id', function (result) {
+        var currentId
+        var lastOrderId = result.order_id
+        if (lastOrderId === undefined) {
+            //订单为空，初始化记录
+            currentId = getFormatDate() + "01"
+        } else {
+            //有记录，对比是否今天的
+            if (lastOrderId.substring(0, 8) == getFormatDate()) {
+                //今天的继续加
+                currentId = parseInt(lastOrderId) + 1 + ""
+            } else {
+                //不是今天的，重新开始
+                currentId = getFormatDate() + "01"
             }
-        });
-    }
+        }
+        var show_str_temp = currentId + "\r\n" + show_str
+        var boolean = confirm(show_str_temp);
+
+        if (boolean) {
+            body.order_id = currentId;
+            body.date = new Date().getTime();
+            var json = JSON.stringify(body);
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "http://localhost/product/save",
+                data: json,
+                contentType: "application/json",
+                dataType: "text",
+                success: function (data) {
+                    if (data == "success") {
+                        chrome.storage.local.set({'order_id': currentId})
+                        //success
+                        show_str = show_str_temp
+                        print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+                        window.print();
+                    } else {
+                        retuanLastOrderId(lastOrderId)
+                        alert("保存到服务器失败\r\n"+data)
+                    }
+                }
+            });
+        } else {
+            retuanLastOrderId(lastOrderId)
+        }
+    })
+
 })
 
 $("#post_to_local").click(function () {
-    var order_id = prompt("请输入订单号", "");
-    if (order_id) {
-        print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + order_id + "</b></p></div>" + print_str;
-        export_raw(order_id + '.html', print_str);
-        window.print();
-    } else {
-        alert("订单号不能为空")
-    }
+    chrome.storage.local.get('order_id', function (result) {
+        var currentId
+        var lastOrderId = result.order_id
+        if (lastOrderId === undefined) {
+            //订单为空，初始化记录
+            currentId = getFormatDate() + "01"
+        } else {
+            //有记录，对比是否今天的
+            if (lastOrderId.substring(0, 8) == getFormatDate()) {
+                //今天的继续加
+                currentId = parseInt(lastOrderId) + 1 + "";
+            } else {
+                //不是今天的，重新开始
+                currentId = getFormatDate() + "01"
+            }
+        }
+
+        var show_str_temp = currentId + "\r\n" + show_str
+        var boolean = confirm(show_str_temp);
+
+        if (boolean) {
+            chrome.storage.local.set({'order_id': currentId}, function () {
+                body.order_id = currentId;
+                body.date = new Date().getTime();
+                var json = JSON.stringify(body);
+                export_raw(currentId + '.json', json);
+                print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+                window.print();
+            })
+        } else {
+            retuanLastOrderId(lastOrderId)
+        }
+    })
+
 })
 
 function fake_click(obj) {
@@ -123,7 +221,6 @@ show_str += "总价格：" + body.total_price + "元\n"
     + "总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元\n";
 
 body.order_array = order_array;
-var json = JSON.stringify(body);
 
 var tempHtml = $("body").html();
 

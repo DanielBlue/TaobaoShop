@@ -45,6 +45,10 @@
         <servlet-name>OrderAddServlet</servlet-name>
         <servlet-class>pers.mao.taobaoshop.web.servlet.OrderAddServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>pers.mao.taobaoshop.web.servlet.UploadServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>AdminLoginServlet</servlet-name>
@@ -77,6 +81,10 @@
     <servlet-mapping>
         <servlet-name>OrderAddServlet</servlet-name>
         <url-pattern>/order/add_order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/upload</url-pattern>
     </servlet-mapping>
 
     <session-config>
