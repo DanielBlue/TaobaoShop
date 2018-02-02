@@ -16,19 +16,19 @@ public class OrderDao {
 
     public List<Order> getAllOrders() throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "select * from product_order order by id desc";
+        String sql = "select * from product_order order by oid desc";
         return runner.query(sql, new BeanListHandler<Order>(Order.class));
     }
 
     public List<Order> getAllOrders(int currentPage, int count) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "select * from product_order order by id desc limit ?,?";
+        String sql = "select * from product_order order by oid desc limit ?,?";
         return runner.query(sql, new BeanListHandler<Order>(Order.class), currentPage, count);
     }
 
     public List<Order> getOrdersByOid(String oid, int currentPage, int count) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "select * from product_order where oid like ? order by id desc limit ?,?";
+        String sql = "select * from product_order where oid like ? order by oid desc limit ?,?";
         return runner.query(sql, new BeanListHandler<Order>(Order.class), "%"+oid+"%", currentPage, count);
     }
 

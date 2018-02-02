@@ -65,11 +65,6 @@ public class ProductService {
             }
         }catch (SQLException e){
             e.printStackTrace();
-            try {
-                DataSourceUtils.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
             return e.getMessage();
         }
         return null;

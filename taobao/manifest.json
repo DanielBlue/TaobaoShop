@@ -19,6 +19,10 @@
     "content_scripts": [
         {
             "matches": ["https://buy.tmall.com/order/*","https://buy.taobao.com/auction/order/*"],
+            "js": ["js/jquery-1.11.3.min.js","js/order_script.js"]
+        },
+        {
+            "matches": ["https://buyertrade.taobao.com/*"],
             "js": ["js/jquery-1.11.3.min.js","js/myscript.js"]
         }
     ]
