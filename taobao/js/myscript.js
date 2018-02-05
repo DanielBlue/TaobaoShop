@@ -5,7 +5,8 @@
 //     .bought-wrapper-mod__create-time___yNWVS	订单日期(yyyy-MM-dd)
 //     .text-mod__link___2PH1j		交易状态(除去'关闭，成功')
 
-$(".bought-wrapper-mod__trade-order___2lrzV")
+
+
 
 
 
