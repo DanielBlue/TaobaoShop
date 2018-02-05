@@ -55,6 +55,7 @@ public class TaobaoBean {
 
         private String freight;
         private String total_price;
+        private String alipay_code;
         private List<ProductArrayBean> product_array;
 
         public String getFreight() {
@@ -63,6 +64,14 @@ public class TaobaoBean {
 
         public void setFreight(String freight) {
             this.freight = freight;
+        }
+
+        public String getAlipay_code() {
+            return alipay_code;
+        }
+
+        public void setAlipay_code(String alipay_code) {
+            this.alipay_code = alipay_code;
         }
 
         public String getTotal_price() {

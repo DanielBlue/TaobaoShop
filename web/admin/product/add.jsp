@@ -52,6 +52,15 @@
 							   id="userAction_save_do_express_code" class="bg"/>
 					</td>
 				</tr>
+				<tr>
+					<td width="30%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						交易号：
+					</td>
+					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
+						<input type="text" name="alipay_code" value="${order.alipay_code}"
+							   id="userAction_save_do_alipay_code" class="bg"/>
+					</td>
+				</tr>
 				<tr style="FONT-WEIGHT: bold; FONT-SIZE: 20pt; HEIGHT: 25px">
 					<td width="18%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
 						订单总价：

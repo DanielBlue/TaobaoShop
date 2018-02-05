@@ -51,6 +51,7 @@ public class ProductService {
                 }
                 order.setTotal_price(bean.getOrder_array().get(i).getTotal_price());
                 order.setOid(tempOid);
+                order.setAlipay_code(bean.getOrder_array().get(i).getAlipay_code());
                 saveOrder(order);
                 TaobaoBean.OrderArrayBean orderArrayBean = bean.getOrder_array().get(i);
                 for (TaobaoBean.OrderArrayBean.ProductArrayBean productArrayBean : orderArrayBean.getProduct_array()) {

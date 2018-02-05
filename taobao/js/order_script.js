@@ -47,8 +47,8 @@ function retuanLastOrderId(lastOrderId) {
     }
 }
 
-$("div #submitOrder_1").append("<div><br/><br/><a id='post_to_server' role='button' class='go-btn' style='font-size: 20px;background: dodgerblue'>保存到服务器</a>" +
-    "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a>" +
+$("div #submitOrder_1").append("<div><br/><br/><a id='post_to_server' role='button' class='go-btn' style='font-size: 20px;background: dodgerblue'>保存到后台</a>" +
+    // "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a>" +
     "<br/><br/><br/><a id='clear' role='button' class='go-btn' style='font-size: 20px;background: purple'>清除order_id</a></div>");
 
 $("#clear").click(function () {
@@ -57,6 +57,7 @@ $("#clear").click(function () {
     })
 })
 
+var is_first = true
 $("#post_to_server").click(function () {
     chrome.storage.local.get('order_id', function (result) {
         var currentId
@@ -74,70 +75,57 @@ $("#post_to_server").click(function () {
                 currentId = getFormatDate() + "01"
             }
         }
+
+        if (is_first) {
+            is_first = false
+        } else {
+            currentId = lastOrderId
+        }
         var show_str_temp = currentId + "\r\n" + show_str
+        var print_str_temp = print_str
         var boolean = confirm(show_str_temp);
 
         if (boolean) {
             body.order_id = currentId;
             body.date = new Date().getTime();
-            var json = JSON.stringify(body);
-            $.ajax({
-                type: "post",
-                async: false,
-                url: "http://localhost/product/save",
-                data: json,
-                contentType: "application/json",
-                dataType: "text",
-                success: function (data) {
-                    if (data == "success") {
-                        chrome.storage.local.set({'order_id': currentId})
-                        //success
-                        show_str = show_str_temp
-                        print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
-                        window.print();
-                    } else {
-                        retuanLastOrderId(lastOrderId)
-                        alert("保存到服务器失败\r\n"+data)
-                    }
+            print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+            chrome.runtime.sendMessage({
+                greeting: "save",
+                json: body,
+                print_str: print_str,
+                currentId: currentId
+            }, function (response) {
+                if (response.message == "success") {
+                    chrome.storage.local.set({'order_id': currentId})
+                    // show_str = show_str_temp
+                } else {
+                    retuanLastOrderId(lastOrderId)
+                    print_str = print_str_temp
                 }
-            });
-        } else {
-            retuanLastOrderId(lastOrderId)
-        }
-    })
-
-})
-
-$("#post_to_local").click(function () {
-    chrome.storage.local.get('order_id', function (result) {
-        var currentId
-        var lastOrderId = result.order_id
-        if (lastOrderId === undefined) {
-            //订单为空，初始化记录
-            currentId = getFormatDate() + "01"
-        } else {
-            //有记录，对比是否今天的
-            if (lastOrderId.substring(0, 8) == getFormatDate()) {
-                //今天的继续加
-                currentId = parseInt(lastOrderId) + 1 + "";
-            } else {
-                //不是今天的，重新开始
-                currentId = getFormatDate() + "01"
-            }
-        }
-
-        var show_str_temp = currentId + "\r\n" + show_str
-        var boolean = confirm(show_str_temp);
-
-        if (boolean) {
-            chrome.storage.local.set({'order_id': currentId}, function () {
-                body.order_id = currentId;
-                body.date = new Date().getTime();
-                var json = JSON.stringify(body);
-                export_raw(currentId + '.json', json);
-                print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
-                window.print();
+                alert(response.info)
             })
+            // var json = JSON.stringify(body);
+            // $.ajax({
+            //     type: "post",
+            //     async: false,
+            //     url: "http://localhost/product/save",
+            //     data: json,
+            //     contentType: "application/json",
+            //     dataType: "text",
+            //     success: function (data) {
+            //         if (data == "success") {
+            //             chrome.storage.local.set({'order_id': currentId})
+            //             //success
+            //             show_str = show_str_temp
+            //             print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+            //             window.print();
+            //         } else {
+            //             retuanLastOrderId(lastOrderId)
+            //             alert("保存到服务器失败\r\n"+data)
+            //         }
+            //     }
+            // });
+
         } else {
             retuanLastOrderId(lastOrderId)
         }
@@ -145,25 +133,67 @@ $("#post_to_local").click(function () {
 
 })
 
-function fake_click(obj) {
-    var ev = document.createEvent("MouseEvents");
-    ev.initMouseEvent(
-        "click", true, false, window, 0, 0, 0, 0, 0
-        , false, false, false, false, 0, null
-    );
-    obj.dispatchEvent(ev);
-}
+// $("#post_to_local").click(function () {
+//     chrome.storage.local.get('order_id', function (result) {
+//         var currentId
+//         var lastOrderId = result.order_id
+//         if (lastOrderId === undefined) {
+//             //订单为空，初始化记录
+//             currentId = getFormatDate() + "01"
+//         } else {
+//             //有记录，对比是否今天的
+//             if (lastOrderId.substring(0, 8) == getFormatDate()) {
+//                 //今天的继续加
+//                 currentId = parseInt(lastOrderId) + 1 + "";
+//             } else {
+//                 //不是今天的，重新开始
+//                 currentId = getFormatDate() + "01"
+//             }
+//         }
+//
+//         var show_str_temp = currentId + "\r\n" + show_str
+//         var boolean = confirm(show_str_temp);
+//
+//         if (boolean) {
+//             chrome.storage.local.set({'order_id': currentId}, function () {
+//                 body.order_id = currentId;
+//                 body.date = new Date().getTime();
+//
+//                 print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+//
+//                 var json = JSON.stringify(body);
+//                 export_raw(currentId + '.json', json);
+//                 window.print();
+//             })
+//         } else {
+//             retuanLastOrderId(lastOrderId)
+//         }
+//     })
+//
+// })
 
-function export_raw(name, data) {
-    var urlObject = window.URL || window.webkitURL || window;
 
-    var export_blob = new Blob([data]);
+//打印准备
+// function export_raw(name, data) {
+//     var urlObject = window.URL || window.webkitURL || window;
+//
+//     var export_blob = new Blob([data]);
+//
+//     var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+//     save_link.href = urlObject.createObjectURL(export_blob);
+//     save_link.download = name;
+//     fake_click(save_link);
+// }
 
-    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
-    save_link.href = urlObject.createObjectURL(export_blob);
-    save_link.download = name;
-    fake_click(save_link);
-}
+//打印准备
+// function fake_click(obj) {
+//     var ev = document.createEvent("MouseEvents");
+//     ev.initMouseEvent(
+//         "click", true, false, window, 0, 0, 0, 0, 0
+//         , false, false, false, false, 0, null
+//     );
+//     obj.dispatchEvent(ev);
+// }
 
 
 body.total_price = $(".realPay-price").html();
@@ -222,26 +252,26 @@ show_str += "总价格：" + body.total_price + "元\n"
 
 body.order_array = order_array;
 
-var tempHtml = $("body").html();
-
-if (window.matchMedia) {
-    var mediaQueryList = window.matchMedia('print');
-    mediaQueryList.addListener(function (mql) {
-        if (mql.matches) {
-            $("body").html(print_str);
-        } else {
-            $("body").html(tempHtml);
-        }
-    });
-}
-
-window.onbeforeprint = function () {
-    $("body").html(print_str);
-}
-
-window.onafterprint = function () {
-    $("body").html(tempHtml);
-}
+// var tempHtml = $("body").html();
+//
+// if (window.matchMedia) {
+//     var mediaQueryList = window.matchMedia('print');
+//     mediaQueryList.addListener(function (mql) {
+//         if (mql.matches) {
+//             $("body").html(print_str);
+//         } else {
+//             $("body").html(tempHtml);
+//         }
+//     });
+// }
+//
+// window.onbeforeprint = function () {
+//     $("body").html(print_str);
+// }
+//
+// window.onafterprint = function () {
+//     $("body").html(tempHtml);
+// }
 
 
 // 114.67.241.157

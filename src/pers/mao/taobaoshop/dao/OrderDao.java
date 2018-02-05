@@ -70,7 +70,7 @@ public class OrderDao {
 
     public void addOrder(Order order) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "insert into product_order (oid,taobao_code,express_code,total_price,date) values (?,?,?,?,?)";
-        runner.update(sql, order.getOid(), order.getTaobao_code(), order.getExpress_code(), order.getTotal_price(), order.getDate());
+        String sql = "insert into product_order (oid,taobao_code,express_code,total_price,date,alipay_code) values (?,?,?,?,?,?)";
+        runner.update(sql, order.getOid(), order.getTaobao_code(), order.getExpress_code(), order.getTotal_price(), order.getDate(),order.getAlipay_code());
     }
 }

@@ -8,6 +8,8 @@ public class Order {
     private String taobao_code;
     //快递号
     private String express_code;
+
+    private String alipay_code;
     //总价
     private String total_price;
     //日期
@@ -21,6 +23,13 @@ public class Order {
         this.total_price = total_price;
     }
 
+    public String getAlipay_code() {
+        return alipay_code;
+    }
+
+    public void setAlipay_code(String alipay_code) {
+        this.alipay_code = alipay_code;
+    }
 
     public String getOid() {
         return oid;

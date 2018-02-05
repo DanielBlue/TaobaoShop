@@ -27,8 +27,8 @@ public class ProductDao {
 
     public void saveOrder(Order order) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "insert into product_order (oid,total_price,date) values(?,?,?)";
-        runner.update(sql, order.getOid(), order.getTotal_price(), order.getDate());
+        String sql = "insert into product_order (oid,total_price,date,alipay_code) values(?,?,?,?)";
+        runner.update(sql, order.getOid(), order.getTotal_price(), order.getDate(),order.getAlipay_code());
     }
 
     public List<Product> getAllProduct() throws SQLException {

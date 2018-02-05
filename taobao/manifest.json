@@ -3,13 +3,13 @@
     "manifest_version": 2,
     "version": "1.0",
     "description": "淘宝小助手",
-//    "background": {
-//        "scripts": [
-//            "js/jquery-1.11.3.min.js",
-//            "js/background.js"
-//        ],
-//        "persistent": true
-//    },
+    "background": {
+        "scripts": [
+            "js/jquery-1.11.3.min.js",
+            "js/background.js"
+        ],
+        "persistent": true
+    },
     "browser_action": {
         "default_icon": "1.png"
     },
@@ -18,8 +18,12 @@
     ],
     "content_scripts": [
         {
-            "matches": ["https://buy.tmall.com/order/*","https://buy.taobao.com/auction/order/*"],
+            "matches": ["https://buy.tmall.com/order/*","https://buy.taobao.com/auction/*"],
             "js": ["js/jquery-1.11.3.min.js","js/order_script.js"]
+        },
+        {
+            "matches": ["https://*.alipay.com/standard/*"],
+            "js": ["js/jquery-1.11.3.min.js","js/order_info_script.js"]
         },
         {
             "matches": ["https://buyertrade.taobao.com/*"],
