@@ -26,7 +26,7 @@
             })
         })
 
-        function addProduct(){
+        function addProduct() {
             window.location.href = "${pageContext.request.contextPath}/admin/product/add.jsp";
         }
 
@@ -67,9 +67,10 @@
                        style="BORDER-RIGHT: gray 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; WIDTH: 100%; WORD-BREAK: break-all; BORDER-BOTTOM: gray 1px solid; BORDER-COLLAPSE: collapse; BACKGROUND-COLOR: #f5fafe; WORD-WRAP: break-word">
                     <tr style="FONT-WEIGHT: bold; FONT-SIZE: 15pt; HEIGHT: 50px; BACKGROUND-COLOR: #afd1f3">
                         <td align="center" width="6%">序号</td>
-                        <td align="center" width="15%">取货单号</td>
-                        <td align="center" width="20%">淘宝单号</td>
-                        <td align="center" width="20%">快递单号</td>
+                        <td align="center" width="10%">取货单号</td>
+                        <td align="center" width="15%">淘宝单号</td>
+                        <td align="center" width="15%">快递单号</td>
+                        <td align="center" width="15%">交易号</td>
                         <td align="center" width="10%">订单总价</td>
                         <td align="center" width="15%">日期</td>
                         <td width="7%" align="center">编辑</td>
@@ -85,11 +86,13 @@
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="5%">${pageBean.currentCount*(pageBean.currentPage-1)+index.count}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.oid}</td>
+                                width="10%">${orderBean.order.oid}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="20%">${orderBean.order.taobao_code}</td>
+                                width="15%">${orderBean.order.taobao_code}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="20%">${orderBean.order.express_code}</td>
+                                width="15%">${orderBean.order.express_code}</td>
+                            <td style="CURSOR: hand; HEIGHT: 25px" align="center"
+                                width="15%">${orderBean.order.alipay_code}</td>
                             <td align="center" width="10%">${orderBean.order.total_price}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="15%">${orderBean.order.date}</td>
@@ -109,7 +112,7 @@
                             <tr class="child_${orderBean.order.oid}"
                                 style="BACKGROUND-COLOR: #FFF38F;HEIGHT: 40px">
                                 <td align="center">${index.count}</td>
-                                <td align="center" colspan="3">${product.name}</td>
+                                <td align="center" colspan="4">${product.name}</td>
                                 <td align="center">单价:${product.price}</td>
                                 <td align="center">运费:${product.freight}</td>
                                 <td colspan="2"></td>
@@ -126,23 +129,28 @@
 <!--分页 -->
 <div style="width: 380px; margin: 0 auto; margin-top: 50px;">
     <ul class="pagination" style="text-align: center; margin-top: 10px;white-space: nowrap; list-style:none">
-        <!-- 上一页 -->
-        <!-- 判断当前页是否是第一页 -->
-        <c:if test="${pageBean.currentPage==1 }">
-            <li class="disabled" style="float:left;margin-left: 15px">
-                <a href="javascript:void(0);" aria-label="Previous">
-                    <span aria-hidden="true" style="font-size:20px">&laquo;</span>
-                </a>
-            </li>
+
+        <c:if test="${pageBean.totalCount>0 }">
+
+            <!-- 上一页 -->
+            <!-- 判断当前页是否是第一页 -->
+            <c:if test="${pageBean.currentPage==1 }">
+                <li class="disabled" style="float:left;margin-left: 15px">
+                    <a href="javascript:void(0);" aria-label="Previous">
+                        <span aria-hidden="true" style="font-size:20px">&laquo;</span>
+                    </a>
+                </li>
+            </c:if>
+            <c:if test="${pageBean.currentPage!=1 }">
+                <li style="float:left;margin-left: 15px">
+                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}"
+                       aria-label="Previous">
+                        <span aria-hidden="true" style="font-size:20px">&laquo;</span>
+                    </a>
+                </li>
+            </c:if>
         </c:if>
-        <c:if test="${pageBean.currentPage!=1 }">
-            <li style="float:left;margin-left: 15px">
-                <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}"
-                   aria-label="Previous">
-                    <span aria-hidden="true" style="font-size:20px">&laquo;</span>
-                </a>
-            </li>
-        </c:if>
+
 
         <c:forEach begin="1" end="${pageBean.totalPage }" var="page">
             <!-- 判断当前页 -->
@@ -157,22 +165,26 @@
             </c:if>
         </c:forEach>
 
-        <!-- 判断当前页是否是最后一页 -->
-        <c:if test="${pageBean.currentPage==pageBean.totalPage }">
-            <li class="disabled" style="float:left;margin-left: 15px">
-                <a href="javascript:void(0);" aria-label="Next">
-                    <span aria-hidden="true" style="font-size:20px">&raquo;</span>
-                </a>
-            </li>
+        <c:if test="${pageBean.totalCount>0 }">
+
+            <!-- 判断当前页是否是最后一页 -->
+            <c:if test="${pageBean.currentPage==pageBean.totalPage }">
+                <li class="disabled" style="float:left;margin-left: 15px">
+                    <a href="javascript:void(0);" aria-label="Next">
+                        <span aria-hidden="true" style="font-size:20px">&raquo;</span>
+                    </a>
+                </li>
+            </c:if>
+            <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
+                <li style="float:left;margin-left: 15px">
+                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}"
+                       aria-label="Next">
+                        <span aria-hidden="true" style="font-size:20px">&raquo;</span>
+                    </a>
+                </li>
+            </c:if>
         </c:if>
-        <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
-            <li style="float:left;margin-left: 15px">
-                <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}"
-                   aria-label="Next">
-                    <span aria-hidden="true" style="font-size:20px">&raquo;</span>
-                </a>
-            </li>
-        </c:if>
+
 
     </ul>
 </div>
