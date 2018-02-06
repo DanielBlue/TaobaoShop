@@ -101,4 +101,8 @@ public class OrderService {
     public void addOrder(Order order) throws SQLException {
         dao.addOrder(order);
     }
+
+    public void deleteOrder(String oid) throws SQLException {
+        dao.deleteOrder(oid);
+    }
 }

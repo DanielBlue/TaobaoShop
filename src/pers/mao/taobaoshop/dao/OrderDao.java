@@ -85,4 +85,10 @@ public class OrderDao {
         String sql = "update product_order set taobao_code = ? , express_code = ? where alipay_code = ?";
         runner.update(sql, taobao_code, express_code, alipay_code);
     }
+
+    public void deleteOrder(String oid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "delete from product_order where oid = ?";
+        runner.update(sql,oid);
+    }
 }

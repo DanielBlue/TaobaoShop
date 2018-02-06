@@ -43,4 +43,10 @@ public class ProductDao {
         String sql = "select * from product where oid = ?";
         return runner.query(sql, new BeanListHandler<Product>(Product.class),oid);
     }
+
+    public void deleteProduct(String oid) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "delete from product where oid = ?";
+        runner.update(sql,oid);
+    }
 }

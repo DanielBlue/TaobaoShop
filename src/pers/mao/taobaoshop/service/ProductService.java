@@ -70,4 +70,8 @@ public class ProductService {
         }
         return null;
     }
+
+    public void deleteProduct(String oid) throws SQLException {
+        dao.deleteProduct(oid);
+    }
 }

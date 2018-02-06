@@ -53,6 +53,10 @@
         <servlet-name>OrderCodeUpdateServlet</servlet-name>
         <servlet-class>pers.mao.taobaoshop.web.servlet.OrderCodeUpdateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderDeleteServlet</servlet-name>
+        <servlet-class>pers.mao.taobaoshop.web.servlet.OrderDeleteServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>AdminLoginServlet</servlet-name>
@@ -93,6 +97,10 @@
     <servlet-mapping>
         <servlet-name>OrderCodeUpdateServlet</servlet-name>
         <url-pattern>/order/update_taobao_code</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDeleteServlet</servlet-name>
+        <url-pattern>/order/delete_order</url-pattern>
     </servlet-mapping>
 
     <session-config>
