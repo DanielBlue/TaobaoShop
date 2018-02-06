@@ -26,7 +26,7 @@
             "js": ["js/jquery-1.11.3.min.js","js/order_info_script.js"]
         },
         {
-            "matches": ["https://buyertrade.taobao.com/*"],
+            "matches": ["https://trade.taobao.com/*","https://trade.tmall.com/*"],
             "js": ["js/jquery-1.11.3.min.js","js/myscript.js"]
         }
     ]

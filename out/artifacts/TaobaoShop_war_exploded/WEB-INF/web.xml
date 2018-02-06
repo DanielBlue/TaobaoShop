@@ -49,6 +49,10 @@
         <servlet-name>UploadServlet</servlet-name>
         <servlet-class>pers.mao.taobaoshop.web.servlet.UploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderCodeUpdateServlet</servlet-name>
+        <servlet-class>pers.mao.taobaoshop.web.servlet.OrderCodeUpdateServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>AdminLoginServlet</servlet-name>
@@ -85,6 +89,10 @@
     <servlet-mapping>
         <servlet-name>UploadServlet</servlet-name>
         <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderCodeUpdateServlet</servlet-name>
+        <url-pattern>/order/update_taobao_code</url-pattern>
     </servlet-mapping>
 
     <session-config>

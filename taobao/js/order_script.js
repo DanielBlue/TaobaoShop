@@ -46,19 +46,25 @@ function retuanLastOrderId(lastOrderId) {
         chrome.storage.local.set({'order_id': lastOrderId})
     }
 }
+//添加清除和保存到后台按钮
+// $("div #submitOrder_1").append("<div><br/><br/><a id='post_to_server' role='button' class='go-btn' style='font-size: 20px;background: dodgerblue'>保存到后台</a>" +
+//     // "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a>" +
+//     "<br/><br/><br/><a id='clear' role='button' class='go-btn' style='font-size: 20px;background: purple'>清除order_id</a></div>");
 
-$("div #submitOrder_1").append("<div><br/><br/><a id='post_to_server' role='button' class='go-btn' style='font-size: 20px;background: dodgerblue'>保存到后台</a>" +
-    // "<br/><br/><br/><a id='post_to_local' role='button' class='go-btn' style='font-size: 20px;background: green'>保存到本地</a>" +
-    "<br/><br/><br/><a id='clear' role='button' class='go-btn' style='font-size: 20px;background: purple'>清除order_id</a></div>");
+$("div .wrapper a:first").click(save_background)
 
-$("#clear").click(function () {
-    chrome.storage.local.clear(function () {
-        alert("清除成功")
-    })
-})
+//清除order_id按钮
+// $("#clear").click(function () {
+//     chrome.storage.local.clear(function () {
+//         alert("清除成功")
+//     })
+// })
 
 var is_first = true
-$("#post_to_server").click(function () {
+//保存到后台按钮
+// $("#post_to_server").click(save_background)
+
+function save_background() {
     chrome.storage.local.get('order_id', function (result) {
         var currentId
         var lastOrderId = result.order_id
@@ -88,10 +94,9 @@ $("#post_to_server").click(function () {
         if (boolean) {
             body.order_id = currentId;
             body.date = new Date().getTime();
-            print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
             chrome.runtime.sendMessage({
                 greeting: "save",
-                json: body,
+                json: JSON.stringify(body),
                 print_str: print_str,
                 currentId: currentId
             }, function (response) {
@@ -131,7 +136,7 @@ $("#post_to_server").click(function () {
         }
     })
 
-})
+}
 
 // $("#post_to_local").click(function () {
 //     chrome.storage.local.get('order_id', function (result) {

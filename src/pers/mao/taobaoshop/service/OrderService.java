@@ -64,9 +64,15 @@ public class OrderService {
         return dao.getOrders(oid);
     }
 
-    public void updateOrder(String oid, String taobao_code, String express_code) throws SQLException {
-        dao.updateOrder(oid,taobao_code,express_code);
+    public void updateOrderByOid(String oid, String taobao_code, String express_code) throws SQLException {
+        dao.updateOrderByOid(oid,taobao_code,express_code);
     }
+
+
+    public void updateOrderByAcode(String alipay_code, String taobao_code, String express_code) throws SQLException {
+        dao.updateOrderByAcode(alipay_code,taobao_code,express_code);
+    }
+
 
     public PageBean<OrderBean> getOrdersByOid(String oid, int currentPage, int count) throws SQLException {
         PageBean<OrderBean> pageBean = new PageBean();
@@ -86,6 +92,10 @@ public class OrderService {
         initItemList(pageBean, orderBeanList, orderList);
 
         return pageBean;
+    }
+
+    public List<Order> getOrdersByAcode(String alipay_code) throws SQLException{
+        return dao.getOrdersByAcode(alipay_code);
     }
 
     public void addOrder(Order order) throws SQLException {

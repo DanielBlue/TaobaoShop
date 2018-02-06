@@ -32,13 +32,19 @@ public class OrderDao {
         return runner.query(sql, new BeanListHandler<Order>(Order.class), "%"+oid+"%", currentPage, count);
     }
 
+    public List<Order> getOrdersByAcode(String alipay_code) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from product_order where alipay_code = ? ";
+        return runner.query(sql, new BeanListHandler<Order>(Order.class), alipay_code);
+    }
+
     public Order getOrder(String oid) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "select * from product_order where oid = ?";
         return runner.query(sql, new BeanHandler<Order>(Order.class), oid);
     }
 
-    public void updateOrder(String oid, String taobao_code, String express_code) throws SQLException {
+    public void updateOrderByOid(String oid, String taobao_code, String express_code) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "update product_order set taobao_code = ? , express_code = ? where oid = ?";
         runner.update(sql, taobao_code, express_code, oid);
@@ -72,5 +78,11 @@ public class OrderDao {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "insert into product_order (oid,taobao_code,express_code,total_price,date,alipay_code) values (?,?,?,?,?,?)";
         runner.update(sql, order.getOid(), order.getTaobao_code(), order.getExpress_code(), order.getTotal_price(), order.getDate(),order.getAlipay_code());
+    }
+
+    public void updateOrderByAcode(String alipay_code, String taobao_code, String express_code) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "update product_order set taobao_code = ? , express_code = ? where alipay_code = ?";
+        runner.update(sql, taobao_code, express_code, alipay_code);
     }
 }

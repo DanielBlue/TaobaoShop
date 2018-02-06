@@ -7,11 +7,11 @@ var alipay_code_array = new Array();
 
 function init_aplipay_code_array() {
 
-    if ($("tbody .trade-num").length>0){
+    if ($("tbody .trade-num").length > 0) {
         for (var i = 0; i < $("tbody .trade-num").length; i++) {
             alipay_code_array[i] = $("tbody .trade-num").eq(i).html()
         }
-    }else if ($("#J_OrderExt td:last").html()!=undefined){
+    } else if ($("#J_OrderExt td:last").html() != undefined) {
         alipay_code_array[0] = $("#J_OrderExt td:last").html()
     }
 }
@@ -19,7 +19,8 @@ function init_aplipay_code_array() {
 function init_json_str(response) {
     print_str = response.print_str
     currentId = response.currentId
-    var json_obj = response.json
+    print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+    var json_obj = JSON.parse(response.json)
 
     for (var x = 0; x < alipay_code_array.length; x++) {
         json_obj.order_array[x].alipay_code = alipay_code_array[x]
@@ -30,9 +31,9 @@ function init_json_str(response) {
 }
 
 
+$("#post_to_server").click(post_to_server)
 
-
-$("#post_to_server").click(function () {
+function post_to_server() {
     init_aplipay_code_array()
 
     chrome.runtime.sendMessage({greeting: "read"}, function (response) {
@@ -49,7 +50,7 @@ $("#post_to_server").click(function () {
                     if (data == "success") {
                         window.print();
                     } else {
-                        alert("保存到服务器失败\r\n" + data)
+                        alert("保存到服务器失败\r\n失败原因：" + data)
                     }
                 }
             });
@@ -57,13 +58,14 @@ $("#post_to_server").click(function () {
             alert(response.info)
         }
     })
-})
+}
 
 var print_str
 
-$("#post_to_local").click(function () {
-    init_aplipay_code_array()
+$("#post_to_local").click(post_to_local)
 
+function post_to_local() {
+    init_aplipay_code_array()
     chrome.runtime.sendMessage({greeting: "read"}, function (response) {
         if (response.message == "success") {
             var json_str = init_json_str(response);
@@ -73,7 +75,7 @@ $("#post_to_local").click(function () {
             alert(response.info)
         }
     })
-})
+}
 
 
 //打印监听
@@ -95,6 +97,8 @@ window.onbeforeprint = function () {
 
 window.onafterprint = function () {
     $("body").html(tempHtml);
+    $("#post_to_local").click(post_to_local)
+    $("#post_to_server").click(post_to_server)
 }
 
 
