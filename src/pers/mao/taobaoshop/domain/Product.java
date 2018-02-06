@@ -1,7 +1,5 @@
 package pers.mao.taobaoshop.domain;
 
-import pers.mao.taobaoshop.ov.TaobaoBean;
-
 public class Product {
     private int id;
     //订单id

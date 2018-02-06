@@ -101,17 +101,17 @@
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="15%">${orderBean.order.date}</td>
                             <td align="center" style="HEIGHT: 25px" class="td_edit">
-                                <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}"
-                                onclick="if(confirm('确认删除吗？')==false)return false;">
+                                <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}">
                                     <img src="${pageContext.request.contextPath}/images/i_edit.gif"
                                          border="0" style="CURSOR: hand">
                                 </a></td>
 
                             <td align="center" style="HEIGHT: 25px" class="td_delete">
-                                <a href="#" onclick="confirm('确定删除吗？')?location.href='${ pageContext.request.contextPath }/order/delete_order?oid=${orderBean.order.oid}':''">
+                                <a href="#"
+                                   onclick="confirm('确定删除吗？')?location.href='${ pageContext.request.contextPath }/order/delete_order?oid=${orderBean.order.oid}':''">
                                     <img src="${pageContext.request.contextPath}/images/i_del.gif"
-                                    width="16" height="16" border="0" style="CURSOR: hand">
-                            </a></td>
+                                         width="16" height="16" border="0" style="CURSOR: hand">
+                                </a></td>
                         </tr>
 
                         <c:forEach var="product" items="${orderBean.productList}" varStatus="index">
@@ -165,7 +165,8 @@
                                                                             href="javascript:void(0);">${page}</a></li>
             </c:if>
             <c:if test="${pageBean.currentPage!=page }">
-                <li style="float:left;margin-left: 15px;"><a style="font-size:large" href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}">${page}</a>
+                <li style="float:left;margin-left: 15px;"><a style="font-size:large"
+                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}">${page}</a>
                 </li>
             </c:if>
         </c:forEach>
