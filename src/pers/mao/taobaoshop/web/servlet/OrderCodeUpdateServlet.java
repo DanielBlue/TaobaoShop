@@ -26,7 +26,7 @@ public class OrderCodeUpdateServlet extends HttpServlet {
         String taobao_code = request.getParameter("taobao_code");
         String express_code = request.getParameter("express_code");
 
-        String responseStr = "success";
+        String responseStr = "更新成功";
 
 
         try {
