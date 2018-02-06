@@ -30,8 +30,8 @@ public class SaveProductServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String responseStr = "success";
         request.setCharacterEncoding("UTF-8");
+        String responseStr = "success";
         Gson gson = new Gson();
         ProductService service = new ProductService();
         String json = request.getParameter("data");

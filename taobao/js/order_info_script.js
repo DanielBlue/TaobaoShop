@@ -35,7 +35,6 @@ $("#post_to_server").click(post_to_server)
 
 function post_to_server() {
     init_aplipay_code_array()
-
     chrome.runtime.sendMessage({greeting: "read"}, function (response) {
         if (response.message == "success") {
             var json_str = init_json_str(response);
