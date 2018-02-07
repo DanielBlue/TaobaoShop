@@ -39,7 +39,7 @@ $("#sync_to_server").click(function () {
 
     var boolean = confirm(alert_str)
     if (boolean){
-        $.post("http://localhost/order/update_taobao_code",
+        $.post("https://localhost:8443/order/update_taobao_code",
             json_obj,
             function (data) {
                 alert(data)

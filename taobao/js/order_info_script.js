@@ -41,7 +41,7 @@ function post_to_server() {
             $.ajax({
                 type: "post",
                 async: false,
-                url: "http://localhost/product/save",
+                url: "https://localhost:8443/product/save",
                 data: json_str,
                 contentType: "application/json",
                 dataType: "text",
