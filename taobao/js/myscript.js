@@ -39,7 +39,8 @@ $("#sync_to_server").click(function () {
 
     var boolean = confirm(alert_str)
     if (boolean){
-        $.post("https://114.67.241.157:8443/order/update_taobao_code",
+        // 114.67.241.157
+        $.post("https://localhost/order/update_taobao_code",
             json_obj,
             function (data) {
                 alert(data)

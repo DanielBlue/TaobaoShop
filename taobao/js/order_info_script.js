@@ -41,7 +41,8 @@ function post_to_server() {
             $.ajax({
                 type: "post",
                 async: false,
-                url: "https://114.67.241.157:8443/product/save",
+                //114.67.241.157
+                url: "https://localhost/product/save",
                 data: json_str,
                 contentType: "application/json",
                 dataType: "text",
@@ -95,9 +96,8 @@ window.onbeforeprint = function () {
 }
 
 window.onafterprint = function () {
-    $("body").html(tempHtml);
-    $("#post_to_local").click(post_to_local)
-    $("#post_to_server").click(post_to_server)
+    // $("body").html(tempHtml);
+    window.location.reload()
 }
 
 
