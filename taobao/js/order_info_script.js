@@ -1,6 +1,7 @@
 $("#J_Order").after("<div><br/><a id='post_to_server' role='button' class='ui-button ui-button-lblue' style='font-size: 20px;background: orange'>保存到服务器</a>" +
     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='post_to_local' role='button' class='ui-button ui-button-lblue' style='font-size: 20px;background: green'>保存到本地</a></div>")
 
+//打开订单详情
 $("#J_OrderExtTrigger")[0].click()
 
 var alipay_code_array = new Array();
@@ -13,6 +14,8 @@ function init_aplipay_code_array() {
         }
     } else if ($("#J_OrderExt td:last").html() != undefined) {
         alipay_code_array[0] = $("#J_OrderExt td:last").html()
+    } else {
+        alert("参数错误，请刷新")
     }
 }
 
@@ -32,7 +35,6 @@ function init_json_str(response) {
     return json_str_temp;
 }
 
-
 $("#post_to_server").click(post_to_server)
 
 function post_to_server() {
@@ -50,7 +52,7 @@ function post_to_server() {
                 dataType: "text",
                 success: function (data) {
                     if (data == "success") {
-                        chrome.storage.local.set({'order_id':currentId})
+                        chrome.storage.local.set({'order_id': currentId})
                         window.print();
                     } else {
                         alert("保存到服务器失败\r\n失败原因：" + data)
@@ -72,7 +74,7 @@ function post_to_local() {
     chrome.runtime.sendMessage({greeting: "read"}, function (response) {
         if (response.message == "success") {
             var json_str = init_json_str(response);
-            chrome.storage.local.set({'order_id':currentId})
+            chrome.storage.local.set({'order_id': currentId})
             export_raw(currentId + '.json', json_str);
             window.print();
         } else {
