@@ -16,6 +16,8 @@ function init_aplipay_code_array() {
     }
 }
 
+var currentId
+
 function init_json_str(response) {
     print_str = response.print_str
     currentId = response.currentId
@@ -48,6 +50,7 @@ function post_to_server() {
                 dataType: "text",
                 success: function (data) {
                     if (data == "success") {
+                        chrome.storage.local.set({'order_id':currentId})
                         window.print();
                     } else {
                         alert("保存到服务器失败\r\n失败原因：" + data)
@@ -69,6 +72,7 @@ function post_to_local() {
     chrome.runtime.sendMessage({greeting: "read"}, function (response) {
         if (response.message == "success") {
             var json_str = init_json_str(response);
+            chrome.storage.local.set({'order_id':currentId})
             export_raw(currentId + '.json', json_str);
             window.print();
         } else {

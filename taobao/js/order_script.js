@@ -60,10 +60,10 @@ $("a.go-btn:first").hide()
 $("#save_background").click(save_background)
 
 var lastOrderId
+
 chrome.storage.local.get('order_id', function (result) {
     lastOrderId = result.order_id
 })
-
 
 function save_background() {
     var currentId
@@ -95,18 +95,13 @@ function save_background() {
             currentId: currentId
         }, function (response) {
             if (response.message == "success") {
-                chrome.storage.local.set({'order_id': currentId})
                 $("a.go-btn:first")[0].click()
             } else {
-                // returnLastOrderId()
                 print_str = print_str_temp
                 alert(response.info)
             }
         })
     }
-    // else {
-    //     returnLastOrderId()
-    // }
 
 }
 
@@ -166,38 +161,3 @@ show_str += "总价格：" + body.total_price + "元\n"
 
 body.order_array = order_array;
 
-// var tempHtml = $("body").html();
-//
-// if (window.matchMedia) {
-//     var mediaQueryList = window.matchMedia('print');
-//     mediaQueryList.addListener(function (mql) {
-//         if (mql.matches) {
-//             $("body").html(print_str);
-//         } else {
-//             $("body").html(tempHtml);
-//         }
-//     });
-// }
-//
-// window.onbeforeprint = function () {
-//     $("body").html(print_str);
-// }
-//
-// window.onafterprint = function () {
-//     $("body").html(tempHtml);
-// }
-
-
-// 114.67.241.157
-
-// var xhr = new XMLHttpRequest();
-// xhr.open("GET", "http://114.67.241.157/product/save?data="+json, false);
-// xhr.onreadystatechange = function () {
-//     if (xhr.readyState === 4) {
-//         var responseText = xhr.responseText;
-//         print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + responseText + "</b></p></div>" + print_str;
-//         window.print();
-//     }
-// };
-// xhr.setRequestHeader("Content-Type", "application/json;");
-// xhr.send();
