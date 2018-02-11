@@ -2,6 +2,7 @@ package pers.mao.taobaoshop.utils;
 
 
 public class ConstantUtils {
+
     public static final String WX_CODE = "或回复\" 微信号 \"来添加老板微信咨询";
     public static final String SERVER_ERROR = "服务器出错,请稍后再试"+WX_CODE;
     public static final String INPUT_INCOMPLETE = "请输入12位完整单号，例如:201805210601，最后两位为打印的订单中商品前的编号"+WX_CODE;

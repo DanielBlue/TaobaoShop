@@ -107,7 +107,7 @@ public class WxServlet extends HttpServlet {
         String custermname = inputMessage.getFromUserName();// 客户端
         long createTime = inputMessage.getCreateTime();// 接收时间
         Long returnTime = Calendar.getInstance().getTimeInMillis() / 1000;// 返回时间
-        String receiveContent = inputMessage.getContent().replace(" ","");
+        String receiveContent = inputMessage.getContent().replace(" ", "");
 
 
         if (StrUtils.isInteger(receiveContent)) {
@@ -130,7 +130,7 @@ public class WxServlet extends HttpServlet {
                             String expressInfo = NetUtils.getExpressInfo(express_code);
                             if (expressInfo != null && !expressInfo.isEmpty()) {
                                 result = formatResult(expressInfo);
-                            }else {
+                            } else {
                                 result = ConstantUtils.NO_MESSAGE;
                             }
                         } else {

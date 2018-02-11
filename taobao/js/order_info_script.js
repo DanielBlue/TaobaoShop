@@ -46,7 +46,7 @@ function post_to_server() {
                 type: "post",
                 async: false,
                 //114.67.241.157
-                url: "https://localhost/product/save",
+                url: "https://114.67.241.157:8080/product/save",
                 data: json_str,
                 contentType: "application/json",
                 dataType: "text",
@@ -57,6 +57,9 @@ function post_to_server() {
                     } else {
                         alert("保存到服务器失败\r\n失败原因：" + data)
                     }
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown)
                 }
             });
         } else {
