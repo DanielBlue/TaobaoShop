@@ -151,7 +151,7 @@ public class WxServlet extends HttpServlet {
             responseBuild(response, responseStr);
         } else if (receiveContent.equals("微信号")) {
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(),
-                    "http://114.67.241.157" + ConstantUtils.BOSS_WX);
+                    "http://xiongbinxue.top" + ConstantUtils.BOSS_WX);
             responseBuild(response, responseStr);
         } else {
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), ConstantUtils.INPUT_ERROR);
