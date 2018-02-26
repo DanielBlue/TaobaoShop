@@ -41,7 +41,7 @@ $("#sync_to_server").click(function () {
             type: "POST",
             async: false,
             timeout: 5000,
-            url: "https://localhost/order/update_taobao_code",
+            url: "https://xiongbinxue.top:8080/order/update_taobao_code",
             data: json_obj,
             dataType: "text",
             success: function (data) {

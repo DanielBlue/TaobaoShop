@@ -12,7 +12,6 @@
         <!--<welcome-file>default.jsp</welcome-file>-->
     </welcome-file-list>
 
-
     <servlet>
         <servlet-name>AdminLoginServlet</servlet-name>
         <servlet-class>pers.mao.taobaoshop.web.servlet.AdminLoginServlet</servlet-class>

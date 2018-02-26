@@ -46,7 +46,7 @@ function post_to_server() {
                 type: "post",
                 async: false,
                 //114.67.241.157
-                url: "https://114.67.241.157:8080/product/save",
+                url: "https://xiongbinxue.top:8080/product/save",
                 data: json_str,
                 contentType: "application/json",
                 dataType: "text",
