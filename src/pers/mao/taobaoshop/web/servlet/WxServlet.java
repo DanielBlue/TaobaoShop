@@ -1,23 +1,19 @@
 package pers.mao.taobaoshop.web.servlet;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.regexp.internal.RE;
 import com.thoughtworks.xstream.XStream;
 import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.ov.ExpressInfoBean;
 import pers.mao.taobaoshop.ov.InputMessage;
 import pers.mao.taobaoshop.ov.OutputMessage;
-import pers.mao.taobaoshop.service.OrderService;
 import pers.mao.taobaoshop.utils.*;
 
-import javax.lang.model.util.ElementScanner6;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,16 +23,14 @@ public class WxServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean isPost = request.getMethod().toLowerCase().equals("post");
-        if (isPost) {
-            // 接收消息并返回消息
-            acceptMessage(request, response);
-        } else {
-            String echostr = request.getParameter("echostr");
-            responseBuild(response, echostr);
-        }
-
-
+//        boolean isPost = request.getMethod().toLowerCase().equals("post");
+//        if (isPost) {
+//            // 接收消息并返回消息
+//            acceptMessage(request, response);
+//        } else {
+//            String echostr = request.getParameter("echostr");
+//            responseBuild(response, echostr);
+//        }
     }
 
     private void acceptMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -118,10 +112,10 @@ public class WxServlet extends HttpServlet {
 //            System.out.println("消息内容：" + inputMsg.getContent());
 //            System.out.println("消息Id：" + inputMsg.getMsgId());
             String result = "";
-            OrderService service = new OrderService();
+//            OrderService service = new OrderService();
             List<Order> orderList = null;
             try {
-                orderList = service.getOrders(receiveContent);
+//                orderList = service.getOrders(receiveContent);
                 if (orderList != null && orderList.size() > 0) {
                     if (orderList.size() == 1) {
                         Order order = orderList.get(0);
@@ -142,7 +136,7 @@ public class WxServlet extends HttpServlet {
                 } else {
                     result = ConstantUtils.NO_MESSAGE;
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 result = ConstantUtils.SERVER_ERROR;
             }

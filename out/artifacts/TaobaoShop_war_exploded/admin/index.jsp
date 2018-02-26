@@ -15,7 +15,7 @@
     </style>
 </head>
 <body style="background: #278296">
-<form method="post" action="${pageContext.request.contextPath }/admin/login">
+<form method="post" action="${pageContext.request.contextPath }/admin/login.action">
     <table cellspacing="0" cellpadding="0" style="margin-top: 300px" align="center">
         <tr>
             <td style="padding-left: 50px">
@@ -23,17 +23,17 @@
                     <tr><td><span style="color: red; font-size: larger">${loginInfo }</span></td></tr>
                     <tr>
                         <td>管理员账号：</td>
-                        <td><input type="text" name="username"/></td>
+                        <td><input type="text" name="admin.adminName"/></td>
                     </tr>
                     <tr></tr>
                     <tr>
                         <td>管理员密码：</td>
-                        <td><input type="password" name="password"/></td>
+                        <td><input type="password" name="admin.adminPassword"/></td>
                     </tr>
                     <tr></tr>
                     <tr>
                         <td>&nbsp;</td>
-                        <td><input type="checkbox" name="autologin" value="autologin">自动登录</input></td>
+                        <td><input type="checkbox" name="autologin" value="autologin"/>自动登录</td>
                     </tr>
                     <tr></tr>
                     <tr>

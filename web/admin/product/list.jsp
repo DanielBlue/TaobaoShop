@@ -39,7 +39,7 @@
 <body>
 <br>
 <form id="Form1" name="Form1"
-      action="${pageContext.request.contextPath}/order/order_list?currentPage=1"
+      action="${pageContext.request.contextPath}/order/order_list.action?currentPage=1"
       method="post">
 
     &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">&nbsp;&nbsp;
@@ -82,7 +82,7 @@
                     </tr>
 
                     <c:forEach var="orderBean" items="${pageBean.itemList}" varStatus="index">
-                        <tr id="${orderBean.order.oid}"
+                        <tr id="${orderBean.oid}"
                             class="parent"
                             style="HEIGHT: 50px;"
                             onmouseover="this.style.backgroundColor = 'white'"
@@ -90,32 +90,32 @@
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="5%">${pageBean.currentCount*(pageBean.currentPage-1)+index.count}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="10%">${orderBean.order.oid}</td>
+                                width="10%">${orderBean.oid}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.taobao_code}</td>
+                                width="15%">${orderBean.taobao_code}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.express_code}</td>
+                                width="15%">${orderBean.express_code}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.alipay_code}</td>
-                            <td align="center" width="10%">${orderBean.order.total_price}</td>
+                                width="15%">${orderBean.alipay_code}</td>
+                            <td align="center" width="10%">${orderBean.total_price}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.date}</td>
+                                width="15%">${orderBean.date}</td>
                             <td align="center" style="HEIGHT: 25px" class="td_edit">
-                                <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}">
+                                <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.oid}">
                                     <img src="${pageContext.request.contextPath}/images/i_edit.gif"
                                          border="0" style="CURSOR: hand">
                                 </a></td>
 
                             <td align="center" style="HEIGHT: 25px" class="td_delete">
                                 <a href="#"
-                                   onclick="confirm('确定删除吗？')?location.href='${ pageContext.request.contextPath }/order/delete_order?oid=${orderBean.order.oid}':''">
+                                   onclick="confirm('确定删除吗？')?location.href='${ pageContext.request.contextPath }/order/delete_order?oid=${orderBean.oid}':''">
                                     <img src="${pageContext.request.contextPath}/images/i_del.gif"
                                          width="16" height="16" border="0" style="CURSOR: hand">
                                 </a></td>
                         </tr>
 
                         <c:forEach var="product" items="${orderBean.productList}" varStatus="index">
-                            <tr class="child_${orderBean.order.oid}"
+                            <tr class="child_${orderBean.oid}"
                                 style="BACKGROUND-COLOR: #FFF38F;HEIGHT: 40px">
                                 <td align="center">${index.count}</td>
                                 <td align="center" colspan="4">${product.name}</td>
