@@ -5,7 +5,7 @@ import pers.mao.taobaoshop.domain.Product;
 import java.util.List;
 
 public class OrderBean {
-    private int id;
+    private Integer id;
     //订单id
     private String oid;
     //淘宝订单号
@@ -29,8 +29,12 @@ public class OrderBean {
         this.productList = productList;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setId(int id) {

@@ -2,6 +2,7 @@ package pers.mao.taobaoshop.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import pers.mao.taobaoshop.ov.OrderBean;
+import pers.mao.taobaoshop.ov.SelectLimitVo;
 import pers.mao.taobaoshop.pojo.Order;
 import pers.mao.taobaoshop.pojo.OrderExample;
 
@@ -30,5 +31,5 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    List<OrderBean> selectOrderBeanByOid(String oid);
+    List<OrderBean> selectOrderBeanByOid(SelectLimitVo limitVo);
 }

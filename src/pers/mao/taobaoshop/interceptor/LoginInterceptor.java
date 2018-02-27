@@ -14,7 +14,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (!uri.contains("login")){
             Admin admin = (Admin) httpServletRequest.getSession().getAttribute("admin");
             if (null==admin){
-                httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/admin/index");
+                httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/admin/index.jsp");
                 return false;
             }
         }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pers.mao.taobaoshop.mapper.OrderMapper;
 import pers.mao.taobaoshop.ov.OrderBean;
+import pers.mao.taobaoshop.ov.SelectLimitVo;
 import pers.mao.taobaoshop.pojo.OrderExample;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public class OrderDaoImpl implements OrderDao{
     OrderMapper orderMapper;
 
     @Override
-    public List<OrderBean> selectOrderBeanByOid(String oid) {
-        List<OrderBean> orderBeanList = orderMapper.selectOrderBeanByOid(oid);
+    public List<OrderBean> selectOrderBeanByOid(SelectLimitVo limitVo) {
+        List<OrderBean> orderBeanList = orderMapper.selectOrderBeanByOid(limitVo);
 
         return orderBeanList;
     }

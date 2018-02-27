@@ -1,7 +1,7 @@
 package pers.mao.taobaoshop.domain;
 
 public class Product {
-    private int id;
+    private Integer id;
     //订单id
     private String oid;
     //商品描述
@@ -10,6 +10,14 @@ public class Product {
     private String price;
     //运费
     private String freight;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getOid() {
         return oid;

@@ -12,20 +12,7 @@ public class OrderAddServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        request.setCharacterEncoding("UTF-8");
-//        String oid = request.getParameter("oid");
-//        String taobao_code = request.getParameter("taobao_code");
-//        String express_code = request.getParameter("express_code");
-//        String total_price = request.getParameter("total_price");
-//        String alipay_code = request.getParameter("alipay_code");
-//
-//        Order order = new Order();
-//        order.setOid(oid);
-//        order.setTaobao_code(taobao_code);
-//        order.setExpress_code(express_code);
-//        order.setTotal_price(total_price);
-//        order.setAlipay_code(alipay_code);
-//
+
 //        if (oid != null && !oid.trim().isEmpty() && oid.length() == 12) {
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //            String date = sdf.format(new Date());

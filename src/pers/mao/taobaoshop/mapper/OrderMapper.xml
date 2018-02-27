@@ -243,9 +243,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-    <resultMap id="orderProductResultMap" type="OrderBean">
-        <id property="id" column="id"/>
-        <result property="oid" column="oid"/>
+    <resultMap id="orderProductResultMap" type="pers.mao.taobaoshop.ov.OrderBean">
+        <id property="oid" column="oid"/>
         <result property="taobao_code" column="taobao_code"/>
         <result property="express_code" column="express_code"/>
         <result property="alipay_code" column="alipay_code"/>
@@ -254,18 +253,28 @@
 
         <collection property="productList" javaType="list" ofType="Product">
             <id property="oid" column="oid"/>
-            <result property="id" column="id"/>
             <result property="name" column="name"/>
             <result property="price" column="price"/>
             <result property="freight" column="freight"/>
         </collection>
     </resultMap>
 
-    <select id="selectOrderBeanByOid" resultMap="orderProductResultMap" parameterType="String">
-        SELECT * FROM product_order o LEFT JOIN product p ON o.oid = p.oid
-        <if test="null!=${oid} and ${oid}!=''">
-            WHERE o.id=${oid}
-        </if>
+    <select id="selectOrderBeanByOid" resultMap="orderProductResultMap" parameterType="pers.mao.taobaoshop.ov.SelectLimitVo">
+        SELECT
+        o.oid,
+        o.taobao_code,
+        o.express_code,
+        o.alipay_code,
+        o.total_price,
+        o.date,
+        p.oid,
+        p.name,
+        p.price,
+        p.freight
+        FROM product_order o LEFT JOIN product p ON o.oid = p.oid
+        WHERE o.oid like '%${oid}%'
+        ORDER BY o.oid DESC
+        LIMIT #{startIndex},#{count}
     </select>
 
 </mapper>

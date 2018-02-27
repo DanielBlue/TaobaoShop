@@ -149,7 +149,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=1 }">
                 <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}"
+                    <a href="${pageContext.request.contextPath }/order/order_list.action?currentPage=${pageBean.currentPage-1}"
                        aria-label="Previous">
                         <span aria-hidden="true" style="font-size:20px">&laquo;</span>
                     </a>
@@ -166,7 +166,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=page }">
                 <li style="float:left;margin-left: 15px;"><a style="font-size:large"
-                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}">${page}</a>
+                                                             href="${pageContext.request.contextPath }/order/order_list.action?currentPage=${page}">${page}</a>
                 </li>
             </c:if>
         </c:forEach>
@@ -183,7 +183,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
                 <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}"
+                    <a href="${pageContext.request.contextPath }/order/order_list.action?currentPage=${pageBean.currentPage+1}"
                        aria-label="Next">
                         <span aria-hidden="true" style="font-size:20px">&raquo;</span>
                     </a>

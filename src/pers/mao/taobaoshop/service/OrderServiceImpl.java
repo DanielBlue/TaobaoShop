@@ -6,6 +6,7 @@ import pers.mao.taobaoshop.dao.OrderDao;
 import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.ov.OrderBean;
 import pers.mao.taobaoshop.ov.PageBean;
+import pers.mao.taobaoshop.ov.SelectLimitVo;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -128,7 +129,13 @@ public class OrderServiceImpl implements OrderService{
         int totalPage = (int) Math.ceil(1.0*totalCount/count);
         pageBean.setTotalPage(totalPage);
 
-        List<OrderBean> orderBeanList = orderDao.selectOrderBeanByOid(oid);
+
+        SelectLimitVo limitVo = new SelectLimitVo();
+        limitVo.setOid(oid);
+        int index = (currentPage-1)*count;
+        limitVo.setStartIndex(index);
+        limitVo.setCount(count);
+        List<OrderBean> orderBeanList = orderDao.selectOrderBeanByOid(limitVo);
 
         pageBean.setItemList(orderBeanList);
 
