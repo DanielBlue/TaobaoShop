@@ -24,7 +24,10 @@ var currentId
 function init_json_str(response) {
     print_str = response.print_str
     currentId = response.currentId
-    print_str = "<div style='font-size: 40px;margin-top: 100px' align='center'><p><b>" + currentId + "</b></p></div>" + print_str;
+
+    // print_str = "<div style='font-size: 40px;margin-top: 50px' align='center'><p><b>" + currentId + "</b></p></div><br/>" + print_str;
+    print_str =  currentId+"<br/><br/>"+ print_str;
+
     var json_obj = JSON.parse(response.json)
 
     for (var x = 0; x < alipay_code_array.length; x++) {
@@ -88,29 +91,28 @@ function post_to_local() {
 
 
 //打印监听
-var tempHtml = $("body").html();
-if (window.matchMedia) {
-    var mediaQueryList = window.matchMedia('print');
-    mediaQueryList.addListener(function (mql) {
-        if (mql.matches) {
-            $("body").html(print_str);
-        } else {
-            $("body").html(tempHtml);
-        }
-    });
-}
+// var tempHtml = $("body").html();
+// if (window.matchMedia) {
+//     var mediaQueryList = window.matchMedia('print');
+//     mediaQueryList.addListener(function (mql) {
+//         if (mql.matches) {
+//             $("body").html(print_str);
+//         } else {
+//             $("body").html(tempHtml);
+//         }
+//     });
+// }
 
 window.onbeforeprint = function () {
-    $("body").html(print_str);
+    $("html").html(print_str);
 }
 
 window.onafterprint = function () {
-    // $("body").html(tempHtml);
     window.location.reload()
 }
 
 
-//打印
+//保存到本地文件
 function export_raw(name, data) {
     var urlObject = window.URL || window.webkitURL || window;
     var export_blob = new Blob([data]);
@@ -120,7 +122,7 @@ function export_raw(name, data) {
     fake_click(save_link);
 }
 
-//打印
+//保存到本地文件
 function fake_click(obj) {
     var ev = document.createEvent("MouseEvents");
     ev.initMouseEvent(
