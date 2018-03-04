@@ -28,6 +28,7 @@ public class OrderListServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String currentPageStr = request.getParameter("currentPage");
         String oid = request.getParameter("oid");
+        String express_code = request.getParameter("express_code");
 
         int currentPage = Integer.parseInt(currentPageStr);
         int count = 5;
@@ -42,6 +43,13 @@ public class OrderListServlet extends HttpServlet {
                 e.printStackTrace();
             }
             request.setAttribute("oid",oid);
+        }else if (express_code!=null&&!express_code.isEmpty()){
+            try {
+                pageBean = orderService.getOrdersByExpressCode(express_code,currentPage,count);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("express_code",express_code);
         }else {
             try {
                 pageBean = orderService.getAllOrders(currentPage,count);

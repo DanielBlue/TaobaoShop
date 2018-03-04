@@ -45,6 +45,11 @@
     &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">&nbsp;&nbsp;
 
     <input type="submit" value="搜索">
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    快递单号：<input type="text" name="express_code" value="${express_code}">&nbsp;&nbsp;
+
+    <input type="submit" value="搜索">
     <br/>
     <br/>
     <table cellSpacing="1" cellPadding="0" width="100%" align="center"

@@ -57,7 +57,7 @@ public class OrderDao {
         return query.intValue();
     }
 
-    public int getTotalCount(String oid) throws SQLException {
+    public int getTotalCountByOid(String oid) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "select count(*) from product_order where oid like ?";
         Object result = runner.query(sql, new ScalarHandler(), "%"+oid+"%");
@@ -90,5 +90,22 @@ public class OrderDao {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
         String sql = "delete from product_order where oid = ?";
         runner.update(sql,oid);
+    }
+
+    public int getTotalCountByExpressCode(String express_code) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select count(*) from product_order where express_code like ?";
+        Object result = runner.query(sql, new ScalarHandler(), "%"+express_code+"%");
+        if (result != null) {
+            Long query = (Long) result;
+            return query.intValue();
+        }
+        return 0;
+    }
+
+    public List<Order> getOrdersByExpressCode(String express_code, int index, int count) throws SQLException {
+        QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
+        String sql = "select * from product_order where express_code like ? order by oid desc limit ?,?";
+        return runner.query(sql, new BeanListHandler<Order>(Order.class), "%"+express_code+"%", index, count);
     }
 }

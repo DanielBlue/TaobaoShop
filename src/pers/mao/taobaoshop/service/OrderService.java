@@ -79,7 +79,7 @@ public class OrderService {
         pageBean.setCurrentPage(currentPage);
         pageBean.setCurrentCount(count);
 
-        int totalCount = dao.getTotalCount(oid);
+        int totalCount = dao.getTotalCountByOid(oid);
         pageBean.setTotalCount(totalCount);
 
         int totalPage = (int) Math.ceil(1.0*totalCount/count);
@@ -104,5 +104,24 @@ public class OrderService {
 
     public void deleteOrder(String oid) throws SQLException {
         dao.deleteOrder(oid);
+    }
+
+    public PageBean<OrderBean> getOrdersByExpressCode(String express_code, int currentPage, int count) throws SQLException {
+        PageBean<OrderBean> pageBean = new PageBean();
+        pageBean.setCurrentPage(currentPage);
+        pageBean.setCurrentCount(count);
+
+        int totalCount = dao.getTotalCountByExpressCode(express_code);
+        pageBean.setTotalCount(totalCount);
+
+        int totalPage = (int) Math.ceil(1.0*totalCount/count);
+        pageBean.setTotalPage(totalPage);
+
+        List<OrderBean> orderBeanList = new ArrayList<>();
+        int index = (currentPage-1)*count;
+        List<Order> orderList = dao.getOrdersByExpressCode(express_code,index,count);
+
+        initItemList(pageBean, orderBeanList, orderList);
+        return pageBean;
     }
 }
