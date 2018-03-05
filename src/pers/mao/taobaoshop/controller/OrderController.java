@@ -9,8 +9,6 @@ import pers.mao.taobaoshop.ov.PageBean;
 import pers.mao.taobaoshop.pojo.Order;
 import pers.mao.taobaoshop.service.OrderService;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -36,39 +34,43 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/add_order")
-    public String addOrder(Order order) {
+    public String addOrder(Order order,Model model) {
         String oid = order.getOid();
         if (oid != null && !oid.trim().isEmpty() && oid.length() == 12) {
             order.setDate(new Date());
+            Boolean isExisted = orderService.getOrderIsExistedByOid(oid);
 
-            boolean isExisted = false;
-            try {
-                if (orderService.getOrder(oid) != null) {
-                    isExisted = true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            if (!isExisted) {
-                try {
-                    orderService.addOrder(order);
-                    response.sendRedirect("/order/order_list?currentPage=1");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    request.setAttribute("order", order);
-                    request.setAttribute("error_message", "添加异常,请重新提交");
-                    request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
-                }
+            if (isExisted) {
+                model.addAttribute("order", order);
+                model.addAttribute("error_message", "该取货单号已存在");
             } else {
-                request.setAttribute("order", order);
-                request.setAttribute("error_message", "该取货单号已存在");
-                request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
+                orderService.addOrder(order);
             }
-        } else {
-            request.setAttribute("order", order);
-            request.setAttribute("error_message", "取货单号为空或者不合法，取货单号必须是12位");
-            request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
+        }else {
+            model.addAttribute("order", order);
+            model.addAttribute("error_message", "取货单号为空或者不合法，取货单号必须是12位");
         }
+
+        return "/admin/product/add";
+//            if (!isExisted) {
+//                try {
+//                    orderService.addOrder(order);
+//                    response.sendRedirect("/order/order_list?currentPage=1");
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                    request.setAttribute("order", order);
+//                    request.setAttribute("error_message", "添加异常,请重新提交");
+//                    request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
+//                }
+//            } else {
+//                request.setAttribute("order", order);
+//                request.setAttribute("error_message", "该取货单号已存在");
+//                request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
+//            }
+//        } else {
+//            request.setAttribute("order", order);
+//            request.setAttribute("error_message", "取货单号为空或者不合法，取货单号必须是12位");
+//            request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
+//        }
     }
 }

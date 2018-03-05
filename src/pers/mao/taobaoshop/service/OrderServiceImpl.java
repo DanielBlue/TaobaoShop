@@ -141,4 +141,19 @@ public class OrderServiceImpl implements OrderService{
 
         return pageBean;
     }
+
+    @Override
+    public Boolean getOrderIsExistedByOid(String oid) {
+        int count = orderDao.getTotalCount(oid);
+        if (count>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public void addOrder(pers.mao.taobaoshop.pojo.Order order) {
+
+    }
 }
