@@ -1,7 +1,6 @@
 package pers.mao.taobaoshop.web.servlet;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.regexp.internal.RE;
 import com.thoughtworks.xstream.XStream;
 import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.ov.ExpressInfoBean;
@@ -10,7 +9,6 @@ import pers.mao.taobaoshop.ov.OutputMessage;
 import pers.mao.taobaoshop.service.OrderService;
 import pers.mao.taobaoshop.utils.*;
 
-import javax.lang.model.util.ElementScanner6;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
@@ -120,27 +118,33 @@ public class WxServlet extends HttpServlet {
             String result = "";
             OrderService service = new OrderService();
             List<Order> orderList = null;
+
             try {
                 orderList = service.getOrders(receiveContent);
                 if (orderList != null && orderList.size() > 0) {
                     if (orderList.size() == 1) {
                         Order order = orderList.get(0);
-                        String express_code = order.getExpress_code();
-                        if (express_code != null || express_code.isEmpty()) {
-                            String expressInfo = NetUtils.getExpressInfo(express_code);
-                            if (expressInfo != null && !expressInfo.isEmpty()) {
-                                result = formatResult(expressInfo);
-                            } else {
-                                result = ConstantUtils.NO_MESSAGE;
-                            }
+                        String order_state = order.getOrder_state();
+                        if ("1".equals(order_state)) {
+                            result = ConstantUtils.ALREADY_COMPLETE;
                         } else {
-                            result = ConstantUtils.NO_MESSAGE;
+                            String express_code = order.getExpress_code();
+                            if (express_code != null || express_code.isEmpty()) {
+                                String expressInfo = NetUtils.getExpressInfo(express_code);
+                                if (expressInfo != null && !expressInfo.isEmpty()) {
+                                    result = formatResult(expressInfo);
+                                } else {
+                                    result = ConstantUtils.NO_MESSAGE;
+                                }
+                            } else {
+                                result = ConstantUtils.NO_EXPRESS_CODE_MESSAGE;
+                            }
                         }
                     } else {
                         result = ConstantUtils.INPUT_INCOMPLETE;
                     }
                 } else {
-                    result = ConstantUtils.NO_MESSAGE;
+                    result = ConstantUtils.NO_ORDER_MESSAGE;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

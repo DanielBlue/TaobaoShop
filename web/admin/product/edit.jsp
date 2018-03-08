@@ -72,6 +72,27 @@
 						${order.date}
 					</td>
 				</tr>
+
+				<tr>
+					<td width="18%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						订单状态：
+					</td>
+					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
+						<c:if test="${order.order_state==0}">
+							<select name="order_state">
+								<option value="0">未完成</option>
+								<option value="1">已完成</option>
+							</select>
+						</c:if>
+
+						<c:if test="${order.order_state==1}">
+							<select name="order_state">
+								<option value="1">已完成</option>
+								<option value="0">未完成</option>
+							</select>
+						</c:if>
+					</td>
+				</tr>
 				<tr>
 					<td class="ta_01" style="WIDTH: 100%;font-size: 18px;" align="center"
 						bgColor="#f5fafe" colSpan="4">

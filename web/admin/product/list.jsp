@@ -42,14 +42,31 @@
       action="${pageContext.request.contextPath}/order/order_list?currentPage=1"
       method="post">
 
-    &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">&nbsp;&nbsp;
+    &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">
 
-    <input type="submit" value="搜索">
+    &nbsp;&nbsp;&nbsp;&nbsp;快递单号：<input type="text" name="express_code" value="${express_code}">
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    快递单号：<input type="text" name="express_code" value="${express_code}">&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;订单状态：<select name="order_state">
+                                        <c:if test="${order_state==0}">
+                                            <option value="0">未完成</option>
+                                            <option value="1">已完成</option>
+                                            <option value="2">不限</option>
+                                        </c:if>
 
-    <input type="submit" value="搜索">
+                                        <c:if test="${order_state==1}">
+                                            <option value="1">已完成</option>
+                                            <option value="2">不限</option>
+                                            <option value="0">未完成</option>
+                                        </c:if>
+
+                                        <c:if test="${order_state==2}">
+                                            <option value="2">不限</option>
+                                            <option value="0">未完成</option>
+                                            <option value="1">已完成</option>
+                                        </c:if>
+                                        </select>
+
+    &nbsp;&nbsp;<input type="submit" value="搜索">
     <br/>
     <br/>
     <table cellSpacing="1" cellPadding="0" width="100%" align="center"
@@ -75,13 +92,14 @@
                        bordercolor="gray" border="1" id="DataGrid1"
                        style="BORDER-RIGHT: gray 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; WIDTH: 100%; WORD-BREAK: break-all; BORDER-BOTTOM: gray 1px solid; BORDER-COLLAPSE: collapse; BACKGROUND-COLOR: #f5fafe; WORD-WRAP: break-word">
                     <tr style="FONT-WEIGHT: bold; FONT-SIZE: 15pt; HEIGHT: 50px; BACKGROUND-COLOR: #afd1f3">
-                        <td align="center" width="6%">序号</td>
+                        <td align="center" width="5%">序号</td>
                         <td align="center" width="10%">取货单号</td>
-                        <td align="center" width="15%">淘宝单号</td>
-                        <td align="center" width="15%">快递单号</td>
-                        <td align="center" width="15%">交易号</td>
+                        <td align="center" width="13%">淘宝单号</td>
+                        <td align="center" width="13%">快递单号</td>
+                        <td align="center" width="13%">交易号</td>
                         <td align="center" width="10%">订单总价</td>
                         <td align="center" width="15%">日期</td>
+                        <td align="center" width="7%">日期</td>
                         <td width="7%" align="center">编辑</td>
                         <td width="7%" align="center">删除</td>
                     </tr>
@@ -154,7 +172,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=1 }">
                 <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}"
+                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}&oid=${oid}&express_code=${express_code}&order_state=${order_state}"
                        aria-label="Previous">
                         <span aria-hidden="true" style="font-size:20px">&laquo;</span>
                     </a>
@@ -171,7 +189,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=page }">
                 <li style="float:left;margin-left: 15px;"><a style="font-size:large"
-                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}">${page}</a>
+                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}&oid=${oid}&express_code=${express_code}&order_state=${order_state}">${page}</a>
                 </li>
             </c:if>
         </c:forEach>
@@ -188,7 +206,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
                 <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}"
+                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}&oid=${oid}&express_code=${express_code}&order_state=${order_state}"
                        aria-label="Next">
                         <span aria-hidden="true" style="font-size:20px">&raquo;</span>
                     </a>
