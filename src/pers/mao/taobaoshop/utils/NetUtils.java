@@ -2,6 +2,7 @@ package pers.mao.taobaoshop.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,22 +13,27 @@ import java.net.URL;
 
 public class NetUtils {
 
-    public static String getExpressInfo(String express_code){
+    public static String getExpressInfo(String express_code) {
         String urlStr = "http://www.kuaidi100.com/autonumber/autoComNum?resultv2=1&text=" + express_code;
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         String json = connect(urlStr, connection, reader);
-
-        if (json!=null&&!json.isEmpty()){
-            JsonParser parser = new JsonParser();
-            JsonElement jsonElement = parser.parse(json);
-            String express = jsonElement.getAsJsonObject().getAsJsonArray("auto").get(0).getAsJsonObject().get("comCode").getAsString();
-            String result = "";
-            if (!express.isEmpty()) {
-                urlStr = "http://www.kuaidi100.com/query?type=" + express + "&postid=" + express_code;
-                result = connect(urlStr, connection, reader);
+        String result = "";
+        try {
+            if (json != null && !json.isEmpty()) {
+                JsonParser parser = new JsonParser();
+                JsonElement jsonElement = parser.parse(json);
+                if (jsonElement.getAsJsonObject().getAsJsonArray("auto").size() > 0) {
+                    String express = jsonElement.getAsJsonObject().getAsJsonArray("auto").get(0).getAsJsonObject().get("comCode").getAsString();
+                    if (!express.isEmpty()) {
+                        urlStr = "http://www.kuaidi100.com/query?type=" + express + "&postid=" + express_code;
+                        result = connect(urlStr, connection, reader);
+                    }
+                    return result;
+                }
             }
-            return result;
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -42,7 +48,7 @@ public class NetUtils {
             connection.setReadTimeout(8000);
             InputStream inputStream = connection.getInputStream();
 
-            reader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
+            reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -63,7 +69,7 @@ public class NetUtils {
             if (connection != null) {
                 connection.disconnect();
             }
-            return json;
         }
+        return json;
     }
 }

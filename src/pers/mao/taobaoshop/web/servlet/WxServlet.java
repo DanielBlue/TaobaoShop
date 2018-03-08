@@ -129,7 +129,7 @@ public class WxServlet extends HttpServlet {
                             result = ConstantUtils.ALREADY_COMPLETE;
                         } else {
                             String express_code = order.getExpress_code();
-                            if (express_code != null || express_code.isEmpty()) {
+                            if (express_code != null && !express_code.isEmpty()) {
                                 String expressInfo = NetUtils.getExpressInfo(express_code);
                                 if (expressInfo != null && !expressInfo.isEmpty()) {
                                     result = formatResult(expressInfo);
