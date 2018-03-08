@@ -1,7 +1,5 @@
 package pers.mao.taobaoshop.web.filter;
 
-import net.sf.json.JSONObject;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;

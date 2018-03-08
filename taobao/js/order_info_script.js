@@ -4,16 +4,25 @@ $("#J_Order").after("<div><br/><a id='post_to_server' role='button' class='ui-bu
 //打开订单详情
 $("#J_OrderExtTrigger")[0].click()
 
-var alipay_code_array = new Array();
+var alipay_array = new Array();
+
 
 function init_aplipay_code_array() {
 
     if ($("tbody .trade-num").length > 0) {
         for (var i = 0; i < $("tbody .trade-num").length; i++) {
-            alipay_code_array[i] = $("tbody .trade-num").eq(i).html()
+            var alipay = new Object()
+            alipay.product_name = $("tbody tr").eq(i).children("td").eq(1).html().substring(0, 4)
+            var priceStr = $("tbody tr").eq(i).children("td").eq(4).html().trim()
+            alipay.product_price = priceStr.substring(0, priceStr.length - 2)
+            alipay.alipay_code = $("tbody .trade-num").eq(i).html()
+
+            alipay_array[i] = alipay
         }
     } else if ($("#J_OrderExt td:last").html() != undefined) {
-        alipay_code_array[0] = $("#J_OrderExt td:last").html()
+        var alipay = new Object()
+        alipay.alipay_code = $("#J_OrderExt td:last").html()
+        alipay_array[0] = alipay
     } else {
         alert("参数错误，请刷新")
     }
@@ -26,13 +35,31 @@ function init_json_str(response) {
     currentId = response.currentId
 
     // print_str = "<div style='font-size: 40px;margin-top: 50px' align='center'><p><b>" + currentId + "</b></p></div><br/>" + print_str;
-    print_str =  currentId+"<br/><br/>"+ print_str;
+    print_str = currentId + "<br/><br/>" + print_str;
 
     var json_obj = JSON.parse(response.json)
 
-    for (var x = 0; x < alipay_code_array.length; x++) {
-        json_obj.order_array[x].alipay_code = alipay_code_array[x]
+    if (alipay_array.length == 1) {
+        json_obj.order_array[0].alipay_code = alipay_array[0].alipay_code
+    } else {
+        for (var x = 0; x < json_obj.order_array.length; x++) {
+            ccc:
+                for (var y = 0; y < alipay_array.length; y++) {
+                    for (var z = 0; z < json_obj.order_array[x].product_array.length; z++) {
+                        var obj_product = json_obj.order_array[x].product_array[z]
+                        var alipay_product = alipay_array[y]
+
+                        if (obj_product.product_desc.indexOf(alipay_product.product_name) != -1 && json_obj.order_array[x].total_price.toString().indexOf(alipay_product.product_price.toString()) != -1) {
+                            json_obj.order_array[x].alipay_code = alipay_array[y].alipay_code
+                            alipay_array.splice(y, 1)
+                            break ccc;
+                        }
+                    }
+                }
+
+        }
     }
+
 
     var json_str_temp = JSON.stringify(json_obj);
     return json_str_temp;
@@ -49,7 +76,7 @@ function post_to_server() {
                 type: "post",
                 async: false,
                 //114.67.241.157
-                url: "https://xiongbinxue.top:8080/product/save",
+                url: "https://xiongbinxue.top/product/save",
                 data: json_str,
                 contentType: "application/json",
                 dataType: "text",
@@ -61,7 +88,7 @@ function post_to_server() {
                         alert("保存到服务器失败\r\n失败原因：" + data)
                     }
                 },
-                error:function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert(errorThrown)
                 }
             });

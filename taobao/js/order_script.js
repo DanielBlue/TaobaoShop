@@ -1,11 +1,3 @@
-var print_str = "<div align='center'>";
-
-//打印页面
-var print_str2 = "";
-var show_str = "";
-var body = new Object();
-var order_array = new Array();
-var total_agent_cost = 0;
 
 // 确认订单页面结构
 // body
@@ -68,7 +60,18 @@ chrome.storage.local.get('order_id', function (result) {
     lastOrderId = result.order_id
 })
 
+var print_str = "<div align='center'>";
+
+//打印页面
+var print_str2 = "";
+var show_str = "";
+var body = new Object();
+var order_array = new Array();
+var total_agent_cost = 0;
+
 function save_background() {
+	initBody()
+
     var currentId
     if (lastOrderId === undefined) {
         //订单为空，初始化记录
@@ -105,75 +108,91 @@ function save_background() {
                 alert(response.info)
             }
         })
-    }
+    }else{
+        print_str = "<div align='center'>";
+        print_str2 = "";
+        show_str = "";
+        body = new Object();
+        order_array = new Array();
+        total_agent_cost = 0;
+	}
 }
 
-body.total_price = $(".realPay-price").html();
+function initBody(){
+    print_str = "<div align='center'>";
+    print_str2 = "";
+    show_str = "";
+    body = new Object();
+    order_array = new Array();
+    total_agent_cost = 0;
 
-for (var i = 0; i < $(".order-order").length; i++) {
-    var shop_order = new Object();
-    var product_array = new Array();
-    shop_order.freight = $(".select-price").eq(i).html();
-    shop_order.total_price = $('.style-middle-bold-red.J_ShopTotal').eq(i).html();
+	body.total_price = $(".realPay-price").html();
 
-    print_str += "<div style='font-size: medium'><p>" + (i + 1) + ".";
-    print_str2 += (i + 1) + ".";
+	for (var i = 0; i < $(".order-order").length; i++) {
+		var shop_order = new Object();
+		var product_array = new Array();
+		shop_order.freight = $(".select-price").eq(i).html();
+		shop_order.total_price = $('.style-middle-bold-red.J_ShopTotal').eq(i).html();
 
-    show_str += (i + 1) + ".";
+		print_str += "<div style='font-size: medium'><p>" + (i + 1) + ".";
+		print_str2 += (i + 1) + ".";
 
-    for (var x = 0; x < $(".order-order:eq(" + i + ") .order-item.order-item-column-4").length; x++) {
-        var product_order = new Object();
-        product_order.product_desc = (i + 1) + ".(" + (x + 1) + ")" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html();
-        product_order.product_price = $(".order-order:eq(" + i + ") .simple-price:eq(" + x + ")").html();
-        product_array[x] = product_order;
+		show_str += (i + 1) + ".";
 
-        print_str += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "</p>"
-            + "<p>价格：" + product_order.product_price + "元</p>";
+		for (var x = 0; x < $(".order-order:eq(" + i + ") .order-item.order-item-column-4").length; x++) {
+			var product_order = new Object();
+			product_order.product_desc = (i + 1) + ".(" + (x + 1) + ")" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html();
+			product_order.product_price = $(".order-order:eq(" + i + ") .simple-price:eq(" + x + ")").html();
+			product_array[x] = product_order;
 
-        print_str2 += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "<br/>"
-            + "价格：" + product_order.product_price + "元<br/>";
+			print_str += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "</p>"
+				+ "<p>价格：" + product_order.product_price + "元</p>";
 
-        show_str += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "\n"
-            + "价格：" + product_order.product_price + "元\n";
+			print_str2 += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "<br/>"
+				+ "价格：" + product_order.product_price + "元<br/>";
 
-    }
+			show_str += "(" + (x + 1) + ")" + "  商品：" + $(".order-order:eq(" + i + ") .info-title:eq(" + x + ")").html() + "\n"
+				+ "价格：" + product_order.product_price + "元\n";
 
-    print_str += "<p>店铺运费：" + shop_order.freight + "元</p>";
-    print_str2 += "店铺运费：" + shop_order.freight + "元<br/>";
-    show_str += "店铺运费：" + shop_order.freight + "元\n";
+		}
 
-    if (parseInt(shop_order.total_price) >= 30) {
-        print_str += "<p>代购费：5元</p>"
-        print_str2 += "代购费：5元<br/>"
-        show_str += "代购费：5元\n"
-        total_agent_cost += 5;
-    } else {
-        print_str += "<p>代购费：3元</p>"
-        print_str2 += "代购费：3元<br/><br/>"
-        show_str += "代购费：3元\n"
-        total_agent_cost += 3
-    }
+		print_str += "<p>店铺运费：" + shop_order.freight + "元</p>";
+		print_str2 += "店铺运费：" + shop_order.freight + "元<br/>";
+		show_str += "店铺运费：" + shop_order.freight + "元\n";
 
-    print_str += "<p>店铺总价：" + shop_order.total_price + "元</p></div><br/>";
-    print_str2 += "店铺总价：" + shop_order.total_price + "元<br/><br/>";
-    show_str += "店铺总价：" + shop_order.total_price + "元\r\n";
+		if (parseInt(shop_order.total_price) >= 30) {
+			print_str += "<p>代购费：5元</p>"
+			print_str2 += "代购费：5元<br/>"
+			show_str += "代购费：5元\n"
+			total_agent_cost += 5;
+		} else {
+			print_str += "<p>代购费：3元</p>"
+			print_str2 += "代购费：3元<br/><br/>"
+			show_str += "代购费：3元\n"
+			total_agent_cost += 3
+		}
+
+		print_str += "<p>店铺总价：" + shop_order.total_price + "元</p></div><br/>";
+		print_str2 += "店铺总价：" + shop_order.total_price + "元<br/><br/>";
+		show_str += "店铺总价：" + shop_order.total_price + "元\r\n";
 
 
-    shop_order.product_array = product_array;
-    order_array[i] = shop_order;
+		shop_order.product_array = product_array;
+		order_array[i] = shop_order;
+	}
+
+	print_str += "<div style='font-size: 30px'><p>商品总价格：" + body.total_price + "元</p>"
+		+ "<p>总含代购费：" + total_agent_cost + "元</p>"
+		+ "<p>总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元</p></div></div>";
+
+	print_str2 += "总价格：" + body.total_price + "元<br/>"
+		+ "总代购费：" + total_agent_cost + "元<br/>"
+		+ "总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元";
+
+	show_str += "总价格：" + body.total_price + "元\n"
+		+ "总代购费：" + total_agent_cost + "元\n"
+		+ "总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元\n";
+
+	body.order_array = order_array;
 }
-
-print_str += "<div style='font-size: 30px'><p>商品总价格：" + body.total_price + "元</p>"
-    + "<p>总含代购费：" + total_agent_cost + "元</p>"
-    + "<p>总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元</p></div></div>";
-
-print_str2 += "总价格：" + body.total_price + "元<br/>"
-    + "总代购费：" + total_agent_cost + "元<br/>"
-    + "总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元";
-
-show_str += "总价格：" + body.total_price + "元\n"
-    + "总代购费：" + total_agent_cost + "元\n"
-    + "总价格(含代购费)：" + (parseFloat(body.total_price) + total_agent_cost) + "元\n";
-
-body.order_array = order_array;
 
