@@ -148,7 +148,7 @@ public class WxServlet extends HttpServlet {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                result = ConstantUtils.SERVER_ERROR;
+                result = "错误"+e.getErrorCode()+":"+e.getSQLState()+"\r\n\n"+ConstantUtils.SERVER_ERROR;
             }
 
             String responseStr = buildOutputMessage(custermname, servername, returnTime, MsgType.Text.toString(), result);

@@ -46,7 +46,7 @@
 
     &nbsp;&nbsp;&nbsp;&nbsp;快递单号：<input type="text" name="express_code" value="${express_code}">
 
-    &nbsp;&nbsp;&nbsp;&nbsp;订单状态：<select name="order_state">
+    &nbsp;&nbsp;&nbsp;&nbsp;订单状态：<select style="height: 30px" name="order_state">
                                         <c:if test="${order_state==0}">
                                             <option value="0">未完成</option>
                                             <option value="1">已完成</option>
@@ -99,7 +99,7 @@
                         <td align="center" width="13%">交易号</td>
                         <td align="center" width="10%">订单总价</td>
                         <td align="center" width="15%">日期</td>
-                        <td align="center" width="7%">日期</td>
+                        <td align="center" width="7%">订单状态</td>
                         <td width="7%" align="center">编辑</td>
                         <td width="7%" align="center">删除</td>
                     </tr>
@@ -115,14 +115,22 @@
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="10%">${orderBean.order.oid}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.taobao_code}</td>
+                                width="13%">${orderBean.order.taobao_code}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.express_code}</td>
+                                width="13%">${orderBean.order.express_code}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="15%">${orderBean.order.alipay_code}</td>
                             <td align="center" width="10%">${orderBean.order.total_price}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="15%">${orderBean.order.date}</td>
+                                width="13%">${orderBean.order.date}</td>
+                            <c:if test="${orderBean.order.order_state==1}">
+                                <td style="color:red;CURSOR: hand; HEIGHT: 25px" align="center"
+                                    width="6%">已完成</td>
+                            </c:if>
+                            <c:if test="${orderBean.order.order_state==0}">
+                                <td style="CURSOR: hand; HEIGHT: 25px" align="center"
+                                    width="6%">未完成</td>
+                            </c:if>
                             <td align="center" style="HEIGHT: 25px" class="td_edit">
                                 <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}">
                                     <img src="${pageContext.request.contextPath}/images/i_edit.gif"
@@ -144,7 +152,7 @@
                                 <td align="center" colspan="4">${product.name}</td>
                                 <td align="center">单价:${product.price}</td>
                                 <td align="center">运费:${product.freight}</td>
-                                <td colspan="2"></td>
+                                <td colspan="3"></td>
                             </tr>
                         </c:forEach>
                     </c:forEach>

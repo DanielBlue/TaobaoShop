@@ -79,14 +79,14 @@
 					</td>
 					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
 						<c:if test="${order.order_state==0}">
-							<select name="order_state">
+							<select style="height: 30px" name="order_state">
 								<option value="0">未完成</option>
 								<option value="1">已完成</option>
 							</select>
 						</c:if>
 
 						<c:if test="${order.order_state==1}">
-							<select name="order_state">
+							<select style="height: 30px" name="order_state">
 								<option value="1">已完成</option>
 								<option value="0">未完成</option>
 							</select>
