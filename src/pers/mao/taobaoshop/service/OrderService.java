@@ -18,23 +18,36 @@ public class OrderService {
         return dao.getAllOrders();
     }
 
-    public PageBean<OrderBean> getAllOrders(int currentPage, int count) throws SQLException {
+    public PageBean<OrderBean> getAllOrders(int currentPage, int count,String order_state) throws SQLException {
         PageBean<OrderBean> pageBean = new PageBean();
         pageBean.setCurrentPage(currentPage);
         pageBean.setCurrentCount(count);
 
-        int totalCount = dao.getTotalCount();
-        pageBean.setTotalCount(totalCount);
+        if ("2".equals(order_state)){
+            int totalCount = dao.getTotalCount();
+            pageBean.setTotalCount(totalCount);
 
-        int totalPage = (int) Math.ceil(1.0*totalCount/count);
-        pageBean.setTotalPage(totalPage);
+            int totalPage = (int) Math.ceil(1.0*totalCount/count);
+            pageBean.setTotalPage(totalPage);
 
-        List<OrderBean> orderBeanList = new ArrayList<>();
-        int index = (currentPage-1)*count;
-        List<Order> orderList = dao.getAllOrders(index,count);
+            List<OrderBean> orderBeanList = new ArrayList<>();
+            int index = (currentPage-1)*count;
+            List<Order> orderList = dao.getAllOrders(index,count);
 
-        initItemList(pageBean, orderBeanList, orderList);
+            initItemList(pageBean, orderBeanList, orderList);
+        }else {
+            int totalCount = dao.getTotalCountAndOrderState(order_state);
+            pageBean.setTotalCount(totalCount);
 
+            int totalPage = (int) Math.ceil(1.0*totalCount/count);
+            pageBean.setTotalPage(totalPage);
+
+            List<OrderBean> orderBeanList = new ArrayList<>();
+            int index = (currentPage-1)*count;
+            List<Order> orderList = dao.getAllOrdersAndOrderState(index,count,order_state);
+
+            initItemList(pageBean, orderBeanList, orderList);
+        }
         return pageBean;
     }
 
@@ -64,8 +77,8 @@ public class OrderService {
         return dao.getOrders(oid);
     }
 
-    public void updateOrderByOid(String oid, String taobao_code, String express_code) throws SQLException {
-        dao.updateOrderByOid(oid,taobao_code,express_code);
+    public void updateOrderByOid(String oid, String taobao_code, String express_code, String order_state) throws SQLException {
+        dao.updateOrderByOid(oid,taobao_code,express_code,order_state);
     }
 
 
@@ -74,22 +87,38 @@ public class OrderService {
     }
 
 
-    public PageBean<OrderBean> getOrdersByOid(String oid, int currentPage, int count) throws SQLException {
+    public PageBean<OrderBean> getOrdersByOid(String oid, int currentPage, int count, String order_state) throws SQLException {
         PageBean<OrderBean> pageBean = new PageBean();
         pageBean.setCurrentPage(currentPage);
         pageBean.setCurrentCount(count);
 
-        int totalCount = dao.getTotalCountByOid(oid);
-        pageBean.setTotalCount(totalCount);
+        if ("2".equals(order_state)){
+            //不限
+            int totalCount = dao.getTotalCountByOid(oid);
+            pageBean.setTotalCount(totalCount);
 
-        int totalPage = (int) Math.ceil(1.0*totalCount/count);
-        pageBean.setTotalPage(totalPage);
+            int totalPage = (int) Math.ceil(1.0 * totalCount / count);
+            pageBean.setTotalPage(totalPage);
 
-        List<OrderBean> orderBeanList = new ArrayList<>();
-        int index = (currentPage-1)*count;
-        List<Order> orderList = dao.getOrdersByOid(oid,index,count);
+            List<OrderBean> orderBeanList = new ArrayList<>();
+            int index = (currentPage - 1) * count;
+            List<Order> orderList = dao.getOrdersByOid(oid, index, count);
 
-        initItemList(pageBean, orderBeanList, orderList);
+            initItemList(pageBean, orderBeanList, orderList);
+        }else {
+            //有筛选
+            int totalCount = dao.getTotalCountByOidAndOrderState(oid,order_state);
+            pageBean.setTotalCount(totalCount);
+
+            int totalPage = (int) Math.ceil(1.0 * totalCount / count);
+            pageBean.setTotalPage(totalPage);
+
+            List<OrderBean> orderBeanList = new ArrayList<>();
+            int index = (currentPage - 1) * count;
+            List<Order> orderList = dao.getOrdersByOidAndOrderState(oid, index, count,order_state);
+
+            initItemList(pageBean, orderBeanList, orderList);
+        }
 
         return pageBean;
     }
@@ -106,22 +135,36 @@ public class OrderService {
         dao.deleteOrder(oid);
     }
 
-    public PageBean<OrderBean> getOrdersByExpressCode(String express_code, int currentPage, int count) throws SQLException {
+    public PageBean<OrderBean> getOrdersByExpressCode(String express_code, int currentPage, int count, String order_state) throws SQLException {
         PageBean<OrderBean> pageBean = new PageBean();
         pageBean.setCurrentPage(currentPage);
         pageBean.setCurrentCount(count);
 
-        int totalCount = dao.getTotalCountByExpressCode(express_code);
-        pageBean.setTotalCount(totalCount);
+        if ("2".equals(order_state)) {
+            int totalCount = dao.getTotalCountByExpressCode(express_code);
+            pageBean.setTotalCount(totalCount);
 
-        int totalPage = (int) Math.ceil(1.0*totalCount/count);
-        pageBean.setTotalPage(totalPage);
+            int totalPage = (int) Math.ceil(1.0*totalCount/count);
+            pageBean.setTotalPage(totalPage);
 
-        List<OrderBean> orderBeanList = new ArrayList<>();
-        int index = (currentPage-1)*count;
-        List<Order> orderList = dao.getOrdersByExpressCode(express_code,index,count);
+            List<OrderBean> orderBeanList = new ArrayList<>();
+            int index = (currentPage-1)*count;
+            List<Order> orderList = dao.getOrdersByExpressCode(express_code,index,count);
 
-        initItemList(pageBean, orderBeanList, orderList);
+            initItemList(pageBean, orderBeanList, orderList);
+        }else {
+            int totalCount = dao.getTotalCountByExpressCodeAndOrderState(express_code,order_state);
+            pageBean.setTotalCount(totalCount);
+
+            int totalPage = (int) Math.ceil(1.0*totalCount/count);
+            pageBean.setTotalPage(totalPage);
+
+            List<OrderBean> orderBeanList = new ArrayList<>();
+            int index = (currentPage-1)*count;
+            List<Order> orderList = dao.getOrdersByExpressCodeAndOrderState(express_code,index,count,order_state);
+
+            initItemList(pageBean, orderBeanList, orderList);
+        }
         return pageBean;
     }
 }

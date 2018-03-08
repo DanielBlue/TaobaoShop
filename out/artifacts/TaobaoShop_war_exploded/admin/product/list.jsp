@@ -42,14 +42,31 @@
       action="${pageContext.request.contextPath}/order/order_list?currentPage=1"
       method="post">
 
-    &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">&nbsp;&nbsp;
+    &nbsp;&nbsp;订单号：<input type="text" name="oid" value="${oid}">
 
-    <input type="submit" value="搜索">
+    &nbsp;&nbsp;&nbsp;&nbsp;快递单号：<input type="text" name="express_code" value="${express_code}">
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    快递单号：<input type="text" name="express_code" value="${express_code}">&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;订单状态：<select name="order_state">
+                                        <c:if test="${order_state==0}">
+                                            <option value="0">未完成</option>
+                                            <option value="1">已完成</option>
+                                            <option value="2">不限</option>
+                                        </c:if>
 
-    <input type="submit" value="搜索">
+                                        <c:if test="${order_state==1}">
+                                            <option value="1">已完成</option>
+                                            <option value="2">不限</option>
+                                            <option value="0">未完成</option>
+                                        </c:if>
+
+                                        <c:if test="${order_state==2}">
+                                            <option value="2">不限</option>
+                                            <option value="0">未完成</option>
+                                            <option value="1">已完成</option>
+                                        </c:if>
+                                        </select>
+
+    &nbsp;&nbsp;<input type="submit" value="搜索">
     <br/>
     <br/>
     <table cellSpacing="1" cellPadding="0" width="100%" align="center"
@@ -154,7 +171,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=1 }">
                 <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}"
+                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}&oid=${oid}&express_code=${express_code}&order_state=${order_state}"
                        aria-label="Previous">
                         <span aria-hidden="true" style="font-size:20px">&laquo;</span>
                     </a>
@@ -171,7 +188,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=page }">
                 <li style="float:left;margin-left: 15px;"><a style="font-size:large"
-                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}">${page}</a>
+                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}&oid=${oid}&express_code=${express_code}&order_state=${order_state}">${page}</a>
                 </li>
             </c:if>
         </c:forEach>
@@ -188,7 +205,7 @@
             </c:if>
             <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
                 <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}"
+                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}&oid=${oid}&express_code=${express_code}&order_state=${order_state}"
                        aria-label="Next">
                         <span aria-hidden="true" style="font-size:20px">&raquo;</span>
                     </a>

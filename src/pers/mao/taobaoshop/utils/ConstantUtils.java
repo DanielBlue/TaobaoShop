@@ -11,4 +11,8 @@ public class ConstantUtils {
     public static final String BOSS_WX = "/images/wx/wx_img.jpg";
 
     public static final String WELCOME = "欢迎关注广发通讯店。\r\n\r\n请回复你的单号查询快递信息"+WX_CODE;
+    public static final String NO_ORDER_MESSAGE = "系统中没有该单号，请确认后再查"+WX_CODE;
+    public static final String ALREADY_COMPLETE = "该订单已完成，可以前往店铺取货";
+
+    public static final String NO_EXPRESS_CODE_MESSAGE = "该单号还没有录入快递信息，请稍后再查"+WX_CODE;
 }

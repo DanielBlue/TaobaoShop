@@ -15,6 +15,8 @@ public class Order {
     //日期
     private String date;
 
+    private String order_state;
+
     public String getTotal_price() {
         return total_price;
     }
@@ -61,5 +63,13 @@ public class Order {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getOrder_state() {
+        return order_state;
+    }
+
+    public void setOrder_state(String order_state) {
+        this.order_state = order_state;
     }
 }
