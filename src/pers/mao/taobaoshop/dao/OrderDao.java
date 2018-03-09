@@ -137,7 +137,7 @@ public class OrderDao {
 
     public List<Order> getOrdersByExpressCodeAndOrderState(String express_code, int index, int count, String order_state) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "select * from product_order where express_code like ? order_state = ? order by oid desc limit ?,?";
+        String sql = "select * from product_order where express_code like ? and order_state = ? order by oid desc limit ?,?";
         return runner.query(sql, new BeanListHandler<Order>(Order.class), "%" + express_code + "%", order_state, index, count);
     }
 

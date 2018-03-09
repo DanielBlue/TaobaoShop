@@ -47,23 +47,45 @@
     &nbsp;&nbsp;&nbsp;&nbsp;快递单号：<input type="text" name="express_code" value="${express_code}">
 
     &nbsp;&nbsp;&nbsp;&nbsp;订单状态：<select style="height: 30px" name="order_state">
-                                        <c:if test="${order_state==0}">
-                                            <option value="0">未完成</option>
-                                            <option value="1">已完成</option>
-                                            <option value="2">不限</option>
-                                        </c:if>
+    <c:if test="${order_state==0}">
+        <option value="0">未完成</option>
+        <option value="1">已完成</option>
+        <option value="2">不限</option>
+        <option value="3">凭证遗失</option>
+        <option value="4">遗失已完成</option>
+    </c:if>
 
-                                        <c:if test="${order_state==1}">
-                                            <option value="1">已完成</option>
-                                            <option value="2">不限</option>
-                                            <option value="0">未完成</option>
-                                        </c:if>
+    <c:if test="${order_state==1}">
+        <option value="1">已完成</option>
+        <option value="2">不限</option>
+        <option value="0">未完成</option>
+        <option value="3">凭证遗失</option>
+        <option value="4">遗失已完成</option>
+    </c:if>
 
-                                        <c:if test="${order_state==2}">
-                                            <option value="2">不限</option>
-                                            <option value="0">未完成</option>
-                                            <option value="1">已完成</option>
-                                        </c:if>
+    <c:if test="${order_state==2}">
+        <option value="2">不限</option>
+        <option value="0">未完成</option>
+        <option value="1">已完成</option>
+        <option value="3">凭证遗失</option>
+        <option value="4">遗失已完成</option>
+    </c:if>
+
+    <c:if test="${order_state==3}">
+        <option value="3">凭证遗失</option>
+        <option value="2">不限</option>
+        <option value="0">未完成</option>
+        <option value="1">已完成</option>
+        <option value="4">遗失已完成</option>
+    </c:if>
+
+    <c:if test="${order_state==4}">
+        <option value="4">遗失已完成</option>
+        <option value="2">不限</option>
+        <option value="0">未完成</option>
+        <option value="1">已完成</option>
+        <option value="3">凭证遗失</option>
+    </c:if>
                                         </select>
 
     &nbsp;&nbsp;<input type="submit" value="搜索">
@@ -124,12 +146,20 @@
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="13%">${orderBean.order.date}</td>
                             <c:if test="${orderBean.order.order_state==1}">
-                                <td style="color:red;CURSOR: hand; HEIGHT: 25px" align="center"
+                                <td style="color:green;CURSOR: hand; HEIGHT: 25px" align="center"
                                     width="6%">已完成</td>
                             </c:if>
                             <c:if test="${orderBean.order.order_state==0}">
                                 <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                     width="6%">未完成</td>
+                            </c:if>
+                            <c:if test="${orderBean.order.order_state==3}">
+                                <td style="color:red;CURSOR: hand; HEIGHT: 25px" align="center"
+                                    width="6%">凭证遗失</td>
+                            </c:if>
+                            <c:if test="${orderBean.order.order_state==4}">
+                                <td style="color:blue;CURSOR: hand; HEIGHT: 25px" align="center"
+                                    width="6%">遗失已完成</td>
                             </c:if>
                             <td align="center" style="HEIGHT: 25px" class="td_edit">
                                 <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}">

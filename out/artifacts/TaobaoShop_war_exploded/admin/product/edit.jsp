@@ -82,6 +82,8 @@
 							<select style="height: 30px" name="order_state">
 								<option value="0">未完成</option>
 								<option value="1">已完成</option>
+								<option value="3">凭证遗失</option>
+								<option value="4">遗失已完成</option>
 							</select>
 						</c:if>
 
@@ -89,6 +91,24 @@
 							<select style="height: 30px" name="order_state">
 								<option value="1">已完成</option>
 								<option value="0">未完成</option>
+								<option value="3">凭证遗失</option>
+								<option value="4">遗失已完成</option>
+							</select>
+						</c:if>
+						<c:if test="${order.order_state==3}">
+							<select style="height: 30px" name="order_state">
+								<option value="3">凭证遗失</option>
+								<option value="0">未完成</option>
+								<option value="1">已完成</option>
+								<option value="4">遗失已完成</option>
+							</select>
+						</c:if>
+						<c:if test="${order.order_state==4}">
+							<select style="height: 30px" name="order_state">
+								<option value="4">遗失已完成</option>
+								<option value="0">未完成</option>
+								<option value="1">已完成</option>
+								<option value="3">凭证遗失</option>
 							</select>
 						</c:if>
 					</td>

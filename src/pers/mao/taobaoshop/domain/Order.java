@@ -15,6 +15,14 @@ public class Order {
     //日期
     private String date;
 
+    /**
+     * 订单状态码
+     * 0    未完成
+     * 1    已完成
+     * 2    不限
+     * 3    凭证遗失
+     * 4    遗失已完成
+     */
     private String order_state;
 
     public String getTotal_price() {
@@ -65,6 +73,14 @@ public class Order {
         this.date = date;
     }
 
+    /**
+     * 订单状态码
+     * 0    未完成
+     * 1    已完成
+     * 2    不限
+     * 3    凭证遗失
+     * 4    遗失已完成
+     */
     public String getOrder_state() {
         return order_state;
     }
