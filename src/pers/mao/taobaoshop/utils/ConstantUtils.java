@@ -15,5 +15,5 @@ public class ConstantUtils {
     public static final String ALREADY_COMPLETE = "该订单已完成，可以前往店铺取货";
 
     public static final String NO_EXPRESS_CODE_MESSAGE = "该单号还未发货，请稍后再查"+WX_CODE;
-    public static final String EXPRESS_SERVICE_ERROR = "快递公司服务器异常，请稍后再查" + WX_CODE;
+    public static final String ORDER_LOSS = "该单号凭证已遗失,正在公示中。有疑问可与老板联系" + WX_CODE;
 }
