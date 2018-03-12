@@ -4,11 +4,16 @@
 <%@ page import="java.util.List" %>
 <%@ page language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="p" uri="http://mao.pers/common/" %>
 <HTML>
 <HEAD>
     <meta http-equiv="Content-Language" content="zh-cn">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="${pageContext.request.contextPath}/css/Style1.css"
+          rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/css/dataTables.bootstrap.css"
+          rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
           rel="stylesheet" type="text/css"/>
     <script language="javascript"
             src="${pageContext.request.contextPath}/js/public.js"></script>
@@ -194,66 +199,8 @@
 </form>
 
 <!--分页 -->
-<div style="width: 380px; margin: 0 auto; margin-top: 50px;">
-    <ul class="pagination" style="text-align: center; margin-top: 10px;white-space: nowrap; list-style:none">
-
-        <c:if test="${pageBean.totalCount>0 }">
-
-            <!-- 上一页 -->
-            <!-- 判断当前页是否是第一页 -->
-            <c:if test="${pageBean.currentPage==1 }">
-                <li class="disabled" style="float:left;margin-left: 15px">
-                    <a href="javascript:void(0);" aria-label="Previous">
-                        <span aria-hidden="true" style="font-size:20px">&laquo;</span>
-                    </a>
-                </li>
-            </c:if>
-            <c:if test="${pageBean.currentPage!=1 }">
-                <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage-1}&oid=${oid}&express_code=${express_code}&order_state=${order_state}"
-                       aria-label="Previous">
-                        <span aria-hidden="true" style="font-size:20px">&laquo;</span>
-                    </a>
-                </li>
-            </c:if>
-        </c:if>
-
-
-        <c:forEach begin="1" end="${pageBean.totalPage }" var="page">
-            <!-- 判断当前页 -->
-            <c:if test="${pageBean.currentPage==page }">
-                <li class="active" style="float:left;margin-left: 15px;"><a style="font-size:large;color: red;"
-                                                                            href="javascript:void(0);">${page}</a></li>
-            </c:if>
-            <c:if test="${pageBean.currentPage!=page }">
-                <li style="float:left;margin-left: 15px;"><a style="font-size:large"
-                                                             href="${pageContext.request.contextPath }/order/order_list?currentPage=${page}&oid=${oid}&express_code=${express_code}&order_state=${order_state}">${page}</a>
-                </li>
-            </c:if>
-        </c:forEach>
-
-        <c:if test="${pageBean.totalCount>0 }">
-
-            <!-- 判断当前页是否是最后一页 -->
-            <c:if test="${pageBean.currentPage==pageBean.totalPage }">
-                <li class="disabled" style="float:left;margin-left: 15px">
-                    <a href="javascript:void(0);" aria-label="Next">
-                        <span aria-hidden="true" style="font-size:20px">&raquo;</span>
-                    </a>
-                </li>
-            </c:if>
-            <c:if test="${pageBean.currentPage!=pageBean.totalPage }">
-                <li style="float:left;margin-left: 15px">
-                    <a href="${pageContext.request.contextPath }/order/order_list?currentPage=${pageBean.currentPage+1}&oid=${oid}&express_code=${express_code}&order_state=${order_state}"
-                       aria-label="Next">
-                        <span aria-hidden="true" style="font-size:20px">&raquo;</span>
-                    </a>
-                </li>
-            </c:if>
-        </c:if>
-
-
-    </ul>
+<div class="col-md-12 text-center">
+    <p:page url="${pageContext.request.contextPath }/order/order_list"/>
 </div>
 <!-- 分页结束 -->
 </body>
