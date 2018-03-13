@@ -1,6 +1,7 @@
 package pers.mao.taobaoshop.web.servlet;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverLocalFilesystem;
 import com.thoughtworks.xstream.XStream;
 import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.ov.ExpressInfoBean;
@@ -127,6 +128,8 @@ public class WxServlet extends HttpServlet {
                         String order_state = order.getOrder_state();
                         if ("1".equals(order_state)) {
                             result = ConstantUtils.ALREADY_COMPLETE;
+                        } else if ("".equals(order_state)){
+                            result = ConstantUtils.ORDER_LOSS;
                         } else {
                             String express_code = order.getExpress_code();
                             if (express_code != null && !express_code.isEmpty()) {

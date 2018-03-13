@@ -25,7 +25,7 @@ public class OrderListServlet extends HttpServlet {
         String order_state = request.getParameter("order_state");
 
         if (order_state == null) {
-            order_state = "0";
+            order_state = "2";
         }
 
         int currentPage = Integer.parseInt(currentPageStr);
