@@ -201,6 +201,7 @@
 <!--分页 -->
 <div class="col-md-12 text-center">
     <p:page url="${pageContext.request.contextPath }/order/order_list"/>
+    &nbsp;&nbsp;共${pageBean.totalPage}页
 </div>
 <!-- 分页结束 -->
 </body>
