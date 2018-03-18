@@ -119,14 +119,15 @@
                        bordercolor="gray" border="1" id="DataGrid1"
                        style="BORDER-RIGHT: gray 1px solid; BORDER-TOP: gray 1px solid; BORDER-LEFT: gray 1px solid; WIDTH: 100%; WORD-BREAK: break-all; BORDER-BOTTOM: gray 1px solid; BORDER-COLLAPSE: collapse; BACKGROUND-COLOR: #f5fafe; WORD-WRAP: break-word">
                     <tr style="FONT-WEIGHT: bold; FONT-SIZE: 15pt; HEIGHT: 50px; BACKGROUND-COLOR: #afd1f3">
-                        <td align="center" width="5%">序号</td>
-                        <td align="center" width="10%">取货单号</td>
+                        <td align="center" width="3%">序号</td>
+                        <td align="center" width="8%">取货单号</td>
                         <td align="center" width="13%">淘宝单号</td>
                         <td align="center" width="13%">快递单号</td>
                         <td align="center" width="13%">交易号</td>
-                        <td align="center" width="10%">订单总价</td>
+                        <td align="center" width="6%">订单总价</td>
                         <td align="center" width="15%">日期</td>
                         <td align="center" width="7%">订单状态</td>
+                        <td align="center" width="8%">备注</td>
                         <td width="7%" align="center">编辑</td>
                         <td width="7%" align="center">删除</td>
                     </tr>
@@ -138,16 +139,17 @@
                             onmouseover="this.style.backgroundColor = 'white'"
                             onmouseout="this.style.backgroundColor = '#F5FAFE';">
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="5%">${pageBean.currentCount*(pageBean.currentPage-1)+index.count}</td>
+                                width="3%">${pageBean.currentCount*(pageBean.currentPage-1)+index.count}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="10%">${orderBean.order.oid}</td>
+                                width="8%">${orderBean.order.oid}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="13%">${orderBean.order.taobao_code}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="13%">${orderBean.order.express_code}</td>
+                                width="13%">
+                                <a style="text-decoration:underline;" target="_blank" href="${pageContext.request.contextPath}/express/query?express_code=${orderBean.order.express_code}">${orderBean.order.express_code}</a></td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="15%">${orderBean.order.alipay_code}</td>
-                            <td align="center" width="10%">${orderBean.order.total_price}</td>
+                            <td align="center" width="6%">${orderBean.order.total_price}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="13%">${orderBean.order.date}</td>
                             <c:if test="${orderBean.order.order_state==1}">
@@ -166,6 +168,9 @@
                                 <td style="color:blue;CURSOR: hand; HEIGHT: 25px" align="center"
                                     width="6%">遗失已完成</td>
                             </c:if>
+
+                            <td style="CURSOR: hand; HEIGHT: 25px" align="center"
+                                width="8%">${orderBean.order.remark}</td>
                             <td align="center" style="HEIGHT: 25px" class="td_edit">
                                 <a href="${ pageContext.request.contextPath }/order/edit_order?oid=${orderBean.order.oid}">
                                     <img src="${pageContext.request.contextPath}/images/i_edit.gif"
@@ -187,7 +192,7 @@
                                 <td align="center" colspan="4">${product.name}</td>
                                 <td align="center">单价:${product.price}</td>
                                 <td align="center">运费:${product.freight}</td>
-                                <td colspan="3"></td>
+                                <td colspan="4"></td>
                             </tr>
                         </c:forEach>
                     </c:forEach>

@@ -53,7 +53,7 @@
 					</td>
 					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
 						<input type="text" name="alipay_code" value="${order.alipay_code}"
-							   id="userAction_save_do_alipay_code" class="bg" readonly/>
+							   id="userAction_save_do_alipay_code" class="bg"/>
 					</td>
 				</tr>
 				<tr style="FONT-WEIGHT: bold; FONT-SIZE: 20pt; HEIGHT: 25px">
@@ -112,6 +112,15 @@
 							</select>
 						</c:if>
 					</td>
+				<tr>
+					<td width="18%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						备注：
+					</td>
+					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
+						<input type="text" name="remark" value="${order.remark}"
+								   id="userAction_save_do_remark" class="bg"/>
+					</td>
+				</tr>
 				</tr>
 				<tr>
 					<td class="ta_01" style="WIDTH: 100%;font-size: 18px;" align="center"

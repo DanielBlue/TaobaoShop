@@ -77,8 +77,8 @@ public class OrderService {
         return dao.getOrders(oid);
     }
 
-    public void updateOrderByOid(String oid, String taobao_code, String express_code, String order_state) throws SQLException {
-        dao.updateOrderByOid(oid,taobao_code,express_code,order_state);
+    public void updateOrderByOid(String oid, String taobao_code, String express_code, String order_state,String alipay_code,String remark) throws SQLException {
+        dao.updateOrderByOid(oid,taobao_code,express_code,order_state,alipay_code,remark);
     }
 
 

@@ -25,6 +25,8 @@ public class OrderAddServlet extends HttpServlet {
         String express_code = request.getParameter("express_code");
         String total_price = request.getParameter("total_price");
         String alipay_code = request.getParameter("alipay_code");
+        String remark = request.getParameter("remark");
+
 
         Order order = new Order();
         order.setOid(oid);
@@ -32,6 +34,7 @@ public class OrderAddServlet extends HttpServlet {
         order.setExpress_code(express_code);
         order.setTotal_price(total_price);
         order.setAlipay_code(alipay_code);
+        order.setRemark(remark);
 
         if (oid != null && !oid.trim().isEmpty() && oid.length() == 12) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

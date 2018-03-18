@@ -69,6 +69,18 @@
 						<input type="text" name="total_price" value="${order.total_price}"
 							   id="userAction_save_do_total_price" class="bg"/>
 					</td>
+
+
+				</tr>
+
+				<tr style="FONT-WEIGHT: bold; FONT-SIZE: 20pt; HEIGHT: 25px">
+					<td width="18%" height="50px" align="center" bgColor="#f5fafe" class="ta_01">
+						备注：
+					</td>
+					<td class="ta_01" height="50px" bgColor="#ffffff" colspan="3">
+						<input type="text" name="remark" value="${order.remark}"
+							   id="userAction_save_do_remark" class="bg"/>
+					</td>
 				</tr>
 				<tr>
 					<td class="ta_01" style="WIDTH: 100%" align="center"

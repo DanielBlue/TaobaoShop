@@ -20,10 +20,12 @@ public class OrderUpdateServlet extends HttpServlet {
         String taobao_code = request.getParameter("taobao_code");
         String express_code = request.getParameter("express_code");
         String order_state = request.getParameter("order_state");
+        String alipay_code = request.getParameter("alipay_code");
+        String remark = request.getParameter("remark");
 
         OrderService orderService = new OrderService();
         try {
-            orderService.updateOrderByOid(oid,taobao_code,express_code,order_state);
+            orderService.updateOrderByOid(oid,taobao_code,express_code,order_state,alipay_code,remark);
         } catch (SQLException e) {
             e.printStackTrace();
         }

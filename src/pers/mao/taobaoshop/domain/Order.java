@@ -25,6 +25,16 @@ public class Order {
      */
     private String order_state;
 
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getTotal_price() {
         return total_price;
     }

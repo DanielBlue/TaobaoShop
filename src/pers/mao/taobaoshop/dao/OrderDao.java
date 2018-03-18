@@ -42,10 +42,10 @@ public class OrderDao {
         return runner.query(sql, new BeanHandler<Order>(Order.class), oid);
     }
 
-    public void updateOrderByOid(String oid, String taobao_code, String express_code, String order_state) throws SQLException {
+    public void updateOrderByOid(String oid, String taobao_code, String express_code, String order_state,String alipay_code,String remark) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "update product_order set taobao_code = ? , express_code = ? , order_state = ? where oid = ?";
-        runner.update(sql, taobao_code, express_code, order_state, oid);
+        String sql = "update product_order set taobao_code = ? , express_code = ? , order_state = ? ,alipay_code = ? ,remark = ? where oid = ?";
+        runner.update(sql, taobao_code, express_code, order_state, alipay_code,remark,oid);
     }
 
     public int getTotalCount() throws SQLException {
@@ -74,8 +74,8 @@ public class OrderDao {
 
     public void addOrder(Order order) throws SQLException {
         QueryRunner runner = new QueryRunner(DataSourceUtils.getDataSource());
-        String sql = "insert into product_order (oid,taobao_code,express_code,total_price,date,alipay_code) values (?,?,?,?,?,?)";
-        runner.update(sql, order.getOid(), order.getTaobao_code(), order.getExpress_code(), order.getTotal_price(), order.getDate(), order.getAlipay_code());
+        String sql = "insert into product_order (oid,taobao_code,express_code,total_price,date,alipay_code,remark) values (?,?,?,?,?,?,?)";
+        runner.update(sql, order.getOid(), order.getTaobao_code(), order.getExpress_code(), order.getTotal_price(), order.getDate(), order.getAlipay_code(),order.getRemark());
     }
 
     public void updateOrderByAcode(String alipay_code, String taobao_code, String express_code) throws SQLException {
