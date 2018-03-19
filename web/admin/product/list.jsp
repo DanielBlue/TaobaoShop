@@ -143,7 +143,8 @@
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="8%">${orderBean.order.oid}</td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
-                                width="13%">${orderBean.order.taobao_code}</td>
+                                width="13%">
+                                <a style="text-decoration:underline;" target="_blank" href="https://trade.taobao.com/trade/detail/trade_order_detail.htm?biz_order_id=${orderBean.order.taobao_code}">${orderBean.order.taobao_code}</a></td>
                             <td style="CURSOR: hand; HEIGHT: 25px" align="center"
                                 width="13%">
                                 <a style="text-decoration:underline;" target="_blank" href="${pageContext.request.contextPath}/express/query?express_code=${orderBean.order.express_code}">${orderBean.order.express_code}</a></td>
