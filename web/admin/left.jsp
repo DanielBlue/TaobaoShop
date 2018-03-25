@@ -16,7 +16,6 @@
   <tr>
     <td>
 <div class="dtree">
-
 	<a href="javascript: d.openAll();">展开所有</a> | <a href="javascript: d.closeAll();">关闭所有</a>
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/dtree.js"></script>
