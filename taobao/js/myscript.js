@@ -6,32 +6,32 @@ $("#sync_to_server").click(function () {
     var host = window.location.host
     var json_obj = new Object()
     if (host == "trade.tmall.com") {
-        json_obj.alipay_code = $(".trade-dropdown-table span").eq(2).html()
-        json_obj.taobao_code = $("span.ui-trade-label.middleText").html()
-        json_obj.express_code = $("div.content-package.package-1 span").eq(3).html()
+        json_obj.alipayCode = $(".trade-dropdown-table span").eq(2).html()
+        json_obj.taobaoCode = $("span.ui-trade-label.middleText").html()
+        json_obj.expressCode = $("div.content-package.package-1 span").eq(3).html()
     } else if (host == "trade.taobao.com") {
-        json_obj.alipay_code = $("span.misc-info-mod__content___1i_60 span").eq(1).html()
-        json_obj.taobao_code = $("span.misc-info-mod__content___1i_60 span").eq(0).html()
-        json_obj.express_code = $("#detail-panel td").eq(2).html()
+        json_obj.alipayCode = $("span.misc-info-mod__content___1i_60 span").eq(1).html()
+        json_obj.taobaoCode = $("span.misc-info-mod__content___1i_60 span").eq(0).html()
+        json_obj.expressCode = $("#detail-panel td").eq(2).html()
     } else {
         alert("网页url错误")
     }
 
-    if (isNaN(json_obj.alipay_code)) {
-        json_obj.alipay_code = undefined;
+    if (isNaN(json_obj.alipayCode)) {
+        json_obj.alipayCode = undefined;
     }
 
-    if (isNaN(json_obj.taobao_code)) {
-        json_obj.taobao_code = undefined;
+    if (isNaN(json_obj.taobaoCode)) {
+        json_obj.taobaoCode = undefined;
     }
 
-    if (isNaN(json_obj.express_code)) {
-        json_obj.express_code = undefined;
+    if (isNaN(json_obj.expressCode)) {
+        json_obj.expressCode = undefined;
     }
 
-    var alert_str = "支付宝单号：" + json_obj.alipay_code + "\n\r" +
-        "订单号：" + json_obj.taobao_code + "\n\r" +
-        "运货单号：" + json_obj.express_code
+    var alert_str = "支付宝单号：" + json_obj.alipayCode + "\n\r" +
+        "订单号：" + json_obj.taobaoCode + "\n\r" +
+        "运货单号：" + json_obj.expressCode
 
     var boolean = confirm(alert_str)
     if (boolean) {
@@ -41,11 +41,12 @@ $("#sync_to_server").click(function () {
             type: "POST",
             async: false,
             timeout: 5000,
-            url: "https://xiongbinxue.top/order/update_taobao_code",
+            url: "http://localhost:8080/order/code_update_order",
+			contentType:'application/json; charset=utf-8',
             data: json_obj,
-            dataType: "text",
+            dataType: "json",
             success: function (data) {
-                alert(data)
+                alert(data.info)
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(errorThrown)
