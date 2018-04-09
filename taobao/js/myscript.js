@@ -41,8 +41,7 @@ $("#sync_to_server").click(function () {
             type: "POST",
             async: false,
             timeout: 5000,
-            url: "http://localhost:8080/order/code_update_order",
-			contentType:'application/json; charset=utf-8',
+            url: "https://localhost/order/code_update_order",
             data: json_obj,
             dataType: "json",
             success: function (data) {
