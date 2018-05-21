@@ -4,7 +4,6 @@ import pers.mao.taobaoshop.domain.Order;
 import pers.mao.taobaoshop.service.OrderService;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +56,7 @@ public class OrderAddServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                     request.setAttribute("order", order);
-                    request.setAttribute("error_message", "添加异常,请重新提交");
+                    request.setAttribute("error_message", "添加异常,请重新提交 : "+e.getMessage());
                     request.getRequestDispatcher("/admin/product/add.jsp").forward(request, response);
                 }
             }else {
